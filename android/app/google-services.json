@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "610850199352",
+    "project_id": "camera-sell-ecommerce-app",
+    "storage_bucket": "camera-sell-ecommerce-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610850199352:android:e4f3fc72620a9501e813cd",
+        "android_client_info": {
+          "package_name": "com.example.camera_sell_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610850199352-d7f6h4n5v4d25lncmbqetjrcalm5tvm8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCghC026Q76Vhn1jo2i8nxR7JebJf7gvmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610850199352-d7f6h4n5v4d25lncmbqetjrcalm5tvm8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
