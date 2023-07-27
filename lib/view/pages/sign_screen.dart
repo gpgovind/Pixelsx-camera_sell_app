@@ -1,12 +1,42 @@
+
+
+import 'package:camera_sell_app/services/google_auth.dart';
 import 'package:camera_sell_app/utils/background_image.dart';
-import 'package:camera_sell_app/view/pages/widgets/bottom_nav.dart';
+
 import 'package:camera_sell_app/view/pages/widgets/custom_button.dart';
 import 'package:camera_sell_app/view/pages/widgets/sign_textfield.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignScreen extends StatelessWidget {
-  const SignScreen({super.key});
+
+import '../../services/sign_in.dart';
+import 'widgets/bottom_nav.dart';
+
+class SignScreen extends StatefulWidget {
+  SignScreen({super.key});
+
+  @override
+  State<SignScreen> createState() => _SignScreenState();
+}
+
+class _SignScreenState extends State<SignScreen> {
+  final emailController = TextEditingController();
+
+  final passwordController = TextEditingController();
+
+  final confirmPasswordController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,42 +68,68 @@ class SignScreen extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.only(left: 22, right: 20),
-                    child: const Column(
-                      children: [
-                        SignTextField(
-                            hintText: 'Username',
-                            image: 'lib/assets/user icon.png'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SignTextField(
-                            hintText: 'Email',
-                            image: 'lib/assets/mail-icon2.png'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SignTextField(
-                            hintText: 'Password',
-                            image: 'lib/assets/paas-icon.png'),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SignTextField(
-                            hintText: 'Password',
-                            image: 'lib/assets/paas-icon.png'),
-                      ],
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          SignTextField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter email';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.emailAddress,
+                              controller: emailController,
+                              hintText: 'Email',
+                              image: 'lib/assets/mail-icon2.png'),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SignTextField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter password';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              controller: passwordController,
+                              hintText: 'Password',
+                              image: 'lib/assets/paas-icon.png'),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SignTextField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter password';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              controller: confirmPasswordController,
+                              hintText: 'confirm Password',
+                              image: 'lib/assets/paas-icon.png'),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
                     height: 15,
                   ),
                   GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BottomNav()),
-                        );
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await signInUser(
+                              email: emailController.text,
+                              password: passwordController.text,
+                              context: context);
+                        }
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: ((context) => const BottomNav())));
                       },
                       child: CustomButton(
                           buttonName: 'Sign',
@@ -92,7 +148,14 @@ class SignScreen extends StatelessWidget {
                     height: 10,
                   ),
                   InkWell(
-                    onTap: (){},
+                    onTap: () async {
+                      // await AuthService().signInWithGoogle().then((value) => {
+                      //       Navigator.of(context).pushReplacement(
+                      //           MaterialPageRoute(
+                      //               builder: (_) => const AuthPage()))
+                      //     });
+                      await AuthService().signInWithGoogle(context);
+                    },
                     child: Container(
                         width: 80,
                         height: 50,

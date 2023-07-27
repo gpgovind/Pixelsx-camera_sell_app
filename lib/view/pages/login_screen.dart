@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:camera_sell_app/services/login.dart';
 import 'package:camera_sell_app/utils/background_image.dart';
 import 'package:camera_sell_app/view/pages/widgets/login_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../services/google_auth.dart';
 import 'widgets/custom_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,6 +20,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Column(
                                       children: [
                                         LoginTextField(
+                                          keyboardType:
+                                              TextInputType.emailAddress,
                                           controller: emailController,
                                           image: "lib/assets/mail-icon2.png",
                                           hintText: 'Email',
@@ -68,7 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           height: 20.h,
                                         ),
                                         LoginTextField(
+                                          keyboardType: TextInputType.text,
                                           controller: passwordController,
+                                          obscureText: true,
                                           image: "lib/assets/paas-icon.png",
                                           hintText: 'Password',
                                           height: 25.h,
@@ -100,21 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 InkWell(
                                   onTap: () async {
                                     if (formKey.currentState!.validate()) {
-                                      log('login');
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          });
-                                      await Future.delayed(
-                                          const Duration(seconds: 2));
-                                      // ignore: use_build_context_synchronously
-                                      Navigator.of(context).pop();
-
-                                      // ignore: use_build_context_synchronously
                                       await logUserIn(
                                           context: context,
                                           email: emailController.text,
@@ -139,7 +135,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height: 10,
                                 ),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () async {
+                                    await AuthService()
+                                        .signInWithGoogle(context);
+                                  },
                                   child: Container(
                                       width: 80,
                                       height: 50,

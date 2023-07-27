@@ -6,11 +6,13 @@ class CustomButton extends StatelessWidget {
   final double hight;
   final double width;
   final double radius;
+  final bool loading;
   const CustomButton(
       {super.key,
       required this.buttonName,
       required this.hight,
       required this.radius,
+      this.loading = false,
       required this.width});
 
   @override
@@ -33,11 +35,15 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       child: Center(
-          child: Text(buttonName,
-              style: TextStyle(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white))),
+          child: loading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(buttonName,
+                  style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white))),
     );
   }
 }

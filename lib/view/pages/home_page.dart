@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:camera_sell_app/services/login.dart';
 import 'package:camera_sell_app/utils/background_color.dart';
 import 'package:camera_sell_app/view/pages/widgets/card.dart';
 import 'package:camera_sell_app/view/pages/widgets/custom_button.dart';
@@ -73,9 +72,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     IconButton(
                         iconSize: 45.sp,
-                        onPressed: ()  {
-                          singUserOut();
-                        },
+                        onPressed: () {},
                         icon: const Icon(
                           Icons.search,
                           color: Colors.white,
@@ -93,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                     cardWidth: 0.6.sh,
                     elevation: 3,
                     radius: 18.r,
-                    margin: 7,
+                    margin: const EdgeInsets.all(7),
                     child: Stack(
                       children: [
                         Container(

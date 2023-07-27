@@ -7,14 +7,16 @@ class CustomCard extends StatelessWidget {
   final double radius;
   final Widget child;
   final double elevation;
-  final double margin;
-  const CustomCard(
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+   const CustomCard(
       {super.key,
-      required this.cardHight,
-      required this.cardWidth,
+      this.cardHight=0,
+      this.cardWidth=0,
+      this.padding,
       required this.child,
       required this.elevation,
-      this.margin=0,
+      this.margin,
       required this.radius});
 
   @override
@@ -24,8 +26,9 @@ class CustomCard extends StatelessWidget {
       color: Colors.transparent,
       child: Container(
         width: cardWidth.w,
+        padding: padding,
         height: cardHight.h,
-        margin: EdgeInsets.all(margin),
+        margin:margin ,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(radius).r,
             gradient: const LinearGradient(

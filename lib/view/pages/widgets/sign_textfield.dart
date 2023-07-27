@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignTextField extends StatelessWidget {
+class SignTextField extends StatefulWidget {
   final String image;
-
+  final TextEditingController controller;
   final String hintText;
-  const SignTextField({super.key, required this.hintText, required this.image});
+  final String? Function(String?)? validator;
+  final bool obscureText;
+  final TextInputType? keyboardType;
+
+  const SignTextField(
+      {super.key,
+      required this.hintText,
+      this.keyboardType,
+      this.obscureText = false,
+      required this.image,
+      this.validator,
+      required this.controller});
+
+  @override
+  State<SignTextField> createState() => _SignTextFieldState();
+}
+
+class _SignTextFieldState extends State<SignTextField> {
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Image.asset(
-          image,
+          widget.image,
           height: 25.h,
           color: Colors.white,
           width: 21.875.w,
@@ -36,10 +53,14 @@ class SignTextField extends StatelessWidget {
               )),
           child: Center(
             child: TextFormField(
+              obscureText: widget.obscureText,
+              keyboardType: widget.keyboardType,
+              validator: widget.validator,
+              controller: widget.controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                hintText: hintText,
+                hintText: widget.hintText,
                 hintStyle: const TextStyle(color: Colors.white),
               ),
               style: const TextStyle(color: Colors.white),

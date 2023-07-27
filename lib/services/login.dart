@@ -1,60 +1,67 @@
-
-
 import 'dart:developer';
-
-import 'package:camera_sell_app/view/pages/widgets/bottom_nav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-Future logUserIn({
+import '../utils/toast_message.dart';
+import 'firebase_auth.dart';
+
+Future<void> logUserIn({
   required String email,
   required String password,
   required BuildContext context,
 }) async {
   try {
-    
-    
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    // User successfully logged in.
-    // ignore: use_build_context_synchronously
-    return Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) =>
-            const BottomNav())); // Replace with the correct route to your home screen.
-  } on FirebaseAuthException catch (e) {
-    //  Show an error message to the user or log
-    // (e.code == 'user-not-found') ? : ;
-    if (e.code == 'user-not-found') {
-      wrongEmail(context);
-    } else if (e.code == 'wrong-password') {
-      wrongPassword(context);
+
+    String? userEmail = userCredential.user?.email;
+    if (userEmail != null) {
+      log('User signed in successfully. Email: $userEmail');
+    } else {
+      log('User signed in successfully, but the user email is null.');
     }
+    // ignore: use_build_context_synchronously
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (_) => const AuthPage()));
+  } on FirebaseAuthException catch (e) {
+    // Handle FirebaseAuthException errors
+    if (e.code == 'user-not-found') {
+      errorMessage(context, 'User not found. Please register an account.');
+    } else if (e.code == 'wrong-password') {
+      // Utils().toastMessage('Incorrect password. Please try again.');
+      errorMessage(context, 'Incorrect password. Please try again.');
+    } else if (e.code == 'invalid-email') {
+      errorMessage(
+          context, 'Invalid email format. Please check your email address.');
+    } else if (e.code == 'user-disabled') {
+      errorMessage(
+          context, 'User account is disabled. Please contact support.');
+    } else {
+      // Handle other FirebaseAuthException errors
+
+      errorMessage(context, 'Sign-in error: ${e.message}');
+    }
+  } catch (error) {
+    // Handle other generic errors
+
+    errorMessage(context, 'Error signing in: $error');
   }
 }
 
- singUserOut() async {
-  await FirebaseAuth.instance.signOut();
-  log('siOut');
-}
+void signUserOut(BuildContext context) {
+  FirebaseAuth.instance.signOut().then((_) {
+    log('signOut');
 
-void wrongEmail(context) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Incorrect Email'),
-        );
-      });
-}
-
-void wrongPassword(context) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Incorrect Password'),
-        );
-      });
+    // Navigate to the login screen and remove all previous routes
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (build) => const AuthPage()),
+        (route) => false);
+  }).catchError((error) {
+    // Handle any sign-out errors here
+    log('Error signing out: $error');
+  });
 }

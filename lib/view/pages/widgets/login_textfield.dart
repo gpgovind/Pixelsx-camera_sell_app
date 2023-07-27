@@ -7,11 +7,15 @@ class LoginTextField extends StatefulWidget {
   final double height;
   final String image;
   final String hintText;
+  final TextInputType keyboardType;
+  final bool obscureText;
   LoginTextField(
       {super.key,
       required this.image,
       required this.hintText,
       required this.height,
+      required this.keyboardType,
+      this.obscureText = false,
       required this.controller});
 
   @override
@@ -19,13 +23,6 @@ class LoginTextField extends StatefulWidget {
 }
 
 class _LoginTextFieldState extends State<LoginTextField> {
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  //   widget.controller.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -62,6 +59,8 @@ class _LoginTextFieldState extends State<LoginTextField> {
                 return null;
               },
               controller: widget.controller,
+              keyboardType: widget.keyboardType,
+              obscureText: widget.obscureText,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16),
