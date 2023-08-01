@@ -1,10 +1,11 @@
 import 'package:camera_sell_app/utils/background_color.dart';
 import 'package:camera_sell_app/utils/chekout_button.dart';
-import 'package:camera_sell_app/view/pages/widgets/card.dart';
+import 'package:camera_sell_app/view/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../utils/item_increase_and_degrees.dart';
+import '../../../utils/cutom_niopop_button.dart';
+import '../../../utils/item_increase_and_degrees.dart';
 
 class Cart extends StatelessWidget {
   const Cart({super.key});
@@ -507,9 +508,10 @@ class Cart extends StatelessWidget {
                               ],
                             ),
                              const SizedBox(
-                              height: 25,
+                              height: 20,
                             ),
-                            customCheckOutButton
+                            // neoPopBtn(text:'proceed to check out')
+                            neoPopBtnNew(text: 'proceed to check out')
                           ],
                         ),
                       ],

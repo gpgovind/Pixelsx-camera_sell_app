@@ -1,11 +1,11 @@
 import 'package:camera_sell_app/services/login.dart';
 import 'package:camera_sell_app/utils/background_image.dart';
-import 'package:camera_sell_app/view/pages/widgets/login_textfield.dart';
+import 'package:camera_sell_app/view/widgets/login_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../services/google_auth.dart';
-import 'widgets/custom_button.dart';
+import '../../../services/google_auth.dart';
+import '../../widgets/custom_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

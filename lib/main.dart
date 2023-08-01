@@ -1,24 +1,19 @@
-
-
-import 'dart:developer';
-
-import 'package:camera_sell_app/services/firebase_auth.dart';
+import 'package:camera_sell_app/view/pages/welcome%20screen%20and%20auth%20screen/firebase_auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:motion/motion.dart';
 
-
-
-Future <void> main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   try {
     await Firebase.initializeApp();
   } catch (e) {
-    log('Error initializing Firebase: $e');
+    const CircularProgressIndicator();
     // Handle the error appropriately (e.g., show an error message to the user).
   }
-  
-  
+
   runApp(const MyApp());
 }
 
@@ -42,4 +37,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-   

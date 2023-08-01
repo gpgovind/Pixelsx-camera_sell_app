@@ -18,6 +18,7 @@ class AuthService {
       }
 
       final GoogleSignInAuthentication gAuth = await gUser.authentication;
+      //f the sign-in was successful, this line obtains the authentication details for the signed-in user.
 
       final credential = GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken,

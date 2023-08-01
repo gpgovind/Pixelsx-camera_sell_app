@@ -1,10 +1,11 @@
-import 'package:camera_sell_app/view/pages/cart.dart';
-import 'package:camera_sell_app/view/pages/category.dart';
-import 'package:camera_sell_app/view/pages/home_page.dart';
-import 'package:camera_sell_app/view/pages/settings.dart';
+import 'package:camera_sell_app/view/pages/main%20screens/cart.dart';
+import 'package:camera_sell_app/view/pages/main%20screens/home_page.dart';
+import 'package:camera_sell_app/view/pages/main%20screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
+
+import '../pages/main screens/category.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});

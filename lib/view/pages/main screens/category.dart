@@ -1,5 +1,5 @@
 import 'package:camera_sell_app/utils/background_color.dart';
-import 'package:camera_sell_app/view/pages/widgets/card.dart';
+import 'package:camera_sell_app/view/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

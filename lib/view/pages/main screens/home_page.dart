@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:camera_sell_app/utils/background_color.dart';
-import 'package:camera_sell_app/view/pages/widgets/card.dart';
-import 'package:camera_sell_app/view/pages/widgets/custom_button.dart';
+import 'package:camera_sell_app/view/widgets/card.dart';
+import 'package:camera_sell_app/view/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'widgets/arrow_custom_button.dart';
-import 'widgets/item_on_click.dart';
+import '../../../utils/navigation.dart';
+import '../../widgets/arrow_custom_button.dart';
+import '../../widgets/item_on_click.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -212,12 +213,9 @@ class _HomePageState extends State<HomePage> {
                                   right: 15.w,
                                   child: ArrowCustomButton(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ItemOnClick()),
-                                      );
+                                      CustomNavigator.navigationPush(
+                                          context: context,
+                                          child: const ItemOnClick());
                                     },
                                   )),
                               Positioned(

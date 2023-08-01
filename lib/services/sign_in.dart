@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:camera_sell_app/services/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/navigation.dart';
 import '../utils/toast_message.dart';
+import '../view/pages/welcome screen and auth screen/firebase_auth_screen.dart';
 
 Future<void> signInUser(
     {required BuildContext context,
@@ -21,8 +22,15 @@ Future<void> signInUser(
     log('User signed in successfully. Email: $userEmail');
 
     // ignore: use_build_context_synchronously
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const AuthPage()));
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    ).then((value) =>  CustomNavigator.navigationPushReplace(context: context, child: const AuthPage()));
+
+    await Future.delayed(const Duration(seconds: 2));
+    // ignore: use_build_context_synchronously
+    Navigator.of(context, rootNavigator: true).pop();
   } on FirebaseAuthException catch (e) {
     if (e.code == 'firebase_auth/invalid-email') {
       // Handle invalid email format error
@@ -39,11 +47,11 @@ Future<void> signInUser(
     } else {
       // Handle other FirebaseAuthException errors
 
-      errorMessage(context, 'Sign-in error: ${e.message}');
+      errorMessage(context, 'Sign-in error');
     }
   } catch (error) {
     // Handle other generic errors
 
-    errorMessage(context, 'Error signing in: $error');
+    errorMessage(context, 'Error signing in');
   }
 }

@@ -1,17 +1,15 @@
-
-
 import 'package:camera_sell_app/services/google_auth.dart';
 import 'package:camera_sell_app/utils/background_image.dart';
 
-import 'package:camera_sell_app/view/pages/widgets/custom_button.dart';
-import 'package:camera_sell_app/view/pages/widgets/sign_textfield.dart';
+import 'package:camera_sell_app/view/widgets/custom_button.dart';
+import 'package:camera_sell_app/view/widgets/sign_textfield.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-import '../../services/sign_in.dart';
-import 'widgets/bottom_nav.dart';
+import 'firebase_auth_screen.dart';
+import '../../../services/sign_in.dart';
+import '../../../utils/toast_message.dart';
 
 class SignScreen extends StatefulWidget {
   SignScreen({super.key});
@@ -123,13 +121,15 @@ class _SignScreenState extends State<SignScreen> {
                   GestureDetector(
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          await signInUser(
-                              email: emailController.text,
-                              password: passwordController.text,
-                              context: context);
+                          if (passwordController.text == confirmPasswordController.text) {
+                            await signInUser(
+                                email: emailController.text,
+                                password: passwordController.text,
+                                context: context);
+                          } else {
+                            errorMessage(context, 'password incorrect');
+                          }
                         }
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: ((context) => const BottomNav())));
                       },
                       child: CustomButton(
                           buttonName: 'Sign',
@@ -149,12 +149,13 @@ class _SignScreenState extends State<SignScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      // await AuthService().signInWithGoogle().then((value) => {
-                      //       Navigator.of(context).pushReplacement(
-                      //           MaterialPageRoute(
-                      //               builder: (_) => const AuthPage()))
-                      //     });
-                      await AuthService().signInWithGoogle(context);
+                      await AuthService()
+                          .signInWithGoogle(context)
+                          .then((value) => {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (_) => const AuthPage()))
+                              });
                     },
                     child: Container(
                         width: 80,

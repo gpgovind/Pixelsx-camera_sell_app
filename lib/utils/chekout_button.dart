@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 final Container customCheckOutButton = Container(
-// width: 154.7823028564453.w,
-// height: 90.77050018310547.h,
-padding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(18), // Add border radius
     gradient: const LinearGradient(
