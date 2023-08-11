@@ -1,49 +1,49 @@
+import 'package:camera_sell_app/utils/const_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable
-class ProfileTextFiled extends StatefulWidget {
+class CustomNewTextFiled extends StatefulWidget {
   TextEditingController controller = TextEditingController();
   final double height;
   final double width;
-  final String text;
+  final String? text;
   final String hintText;
   final TextInputType keyboardType;
   final bool obscureText;
-  ProfileTextFiled(
+  final int? maxLines ;
+  CustomNewTextFiled(
       {super.key,
-      required this.text,
-      this.width=360,
+      this.text = '',
+      this.width = 360,
       required this.hintText,
       required this.height,
+      this.maxLines=1,
       required this.keyboardType,
       this.obscureText = false,
       required this.controller});
 
   @override
-  State<ProfileTextFiled> createState() => _ProfileTextFiledState();
+  State<CustomNewTextFiled> createState() => _CustomNewTextFiledState();
 }
 
-class _ProfileTextFiledState extends State<ProfileTextFiled> {
+class _CustomNewTextFiledState extends State<CustomNewTextFiled> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-   
       children: [
-         Container(
-            margin: const EdgeInsets.all(5),
-           child: Text(widget.text,
-              style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w500,
-                color: Colors.white
-              )),
-         ),
-        
         Container(
-          width: widget.width.w ,
-          height:widget.height ,
+          margin: const EdgeInsets.all(5),
+          child: Text(widget.text!,
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  color: customTextColor)),
+        ),
+        Container(
+          width: widget.width.w,
+          height: widget.height,
           margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(13),
@@ -60,13 +60,16 @@ class _ProfileTextFiledState extends State<ProfileTextFiled> {
               controller: widget.controller,
               keyboardType: widget.keyboardType,
               obscureText: widget.obscureText,
+              maxLines:widget.maxLines ,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 hintText: widget.hintText,
-                hintStyle: const TextStyle(color: Colors.white),
+                hintStyle: const TextStyle(
+                  color: Colors.white70,
+                ),
               ),
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: customTextColor),
             ),
           ),
         ),

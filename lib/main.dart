@@ -11,7 +11,7 @@ Future<void> main() async {
     await Firebase.initializeApp();
   } catch (e) {
     const CircularProgressIndicator();
-    // Handle the error appropriately (e.g., show an error message to the user).
+   // show an error message to the user
   }
 
   runApp(const MyApp());

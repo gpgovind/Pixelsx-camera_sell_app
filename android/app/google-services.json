@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "610850199352-d9hu4h6tpledded1iq5jr79qi68ovegd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.camera_sell_app",
+            "certificate_hash": "8f268463cdd310c846bfea9029d43e01f2c7be97"
+          }
+        },
+        {
           "client_id": "610850199352-d7f6h4n5v4d25lncmbqetjrcalm5tvm8.apps.googleusercontent.com",
           "client_type": 3
         }

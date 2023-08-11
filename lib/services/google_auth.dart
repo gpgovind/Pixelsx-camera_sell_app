@@ -1,10 +1,12 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:google_sign_in/google_sign_in.dart';
+import '../utils/const_path.dart';
+import '../view/pages/welcome screen and auth screen/firebase_auth_screen.dart';
+
+
 
 class AuthService {
   Future<UserCredential?> signInWithGoogle(context) async {
@@ -25,7 +27,17 @@ class AuthService {
         idToken: gAuth.idToken,
       );
 
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()),
+      ).then((value) => CustomNavigator.navigationPushReplace(
+          context: context, child: const AuthPage()));
+
+      await Future.delayed(const Duration(seconds: 2));
+      // ignore: use_build_context_synchronously
+      Navigator.of(context, rootNavigator: true).pop();
     } on FirebaseAuthException catch (e) {
       // Handle FirebaseAuthException errors
       log('FirebaseAuthException during Google sign-in: ${e.message}');
@@ -50,5 +62,6 @@ class AuthService {
 
       return null;
     }
+    return null;
   }
 }

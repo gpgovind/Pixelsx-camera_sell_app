@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BackgroundColor extends StatelessWidget {
-  final Widget child;
-  const BackgroundColor({super.key,required this.child});
- 
-  @override
-  Widget build(BuildContext context) {
+Widget backgroundColor({required Widget child}){
     return Container(
   decoration: const BoxDecoration(
     gradient: LinearGradient(
@@ -18,6 +13,5 @@ class BackgroundColor extends StatelessWidget {
   ),
   child: child,
     );
-  }
 }
 

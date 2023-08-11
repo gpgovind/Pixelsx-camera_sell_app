@@ -7,17 +7,23 @@ class CustomCard extends StatelessWidget {
   final double radius;
   final Widget child;
   final double elevation;
+  final List<Color>? colors; // Add a "?" to make it nullable
+  final BoxBorder? border;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
-   const CustomCard(
-      {super.key,
-      this.cardHight=0,
-      this.cardWidth=0,
-      this.padding,
-      required this.child,
-      required this.elevation,
-      this.margin,
-      required this.radius});
+  const CustomCard({
+    super.key,
+    // Use "Key?" to make it nullable
+    this.cardHight = 0,
+    this.cardWidth = 0,
+    this.colors,
+    this.border,
+    this.padding,
+    required this.child,
+    required this.elevation,
+    this.margin,
+    this.radius = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +34,21 @@ class CustomCard extends StatelessWidget {
         width: cardWidth.w,
         padding: padding,
         height: cardHight.h,
-        margin:margin ,
+        margin: margin,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(radius).r,
-            gradient: const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              
-              colors: [
-                Color.fromRGBO(50, 52, 59, 1),
-                Color.fromRGBO(72, 76, 87, 1),
-                Color.fromRGBO(29, 31, 35, 1),
-              ],
-            )),
+          border: border,
+          borderRadius: BorderRadius.circular(radius).r,
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: colors ??
+                [
+                  const Color.fromRGBO(50, 52, 59, 1),
+                  const Color.fromRGBO(72, 76, 87, 1),
+                  const Color.fromRGBO(29, 31, 35, 1),
+                ],
+          ),
+        ),
         child: child,
       ),
     );

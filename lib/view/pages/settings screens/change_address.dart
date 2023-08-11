@@ -1,9 +1,8 @@
-import 'package:camera_sell_app/utils/background_color.dart';
-import 'package:camera_sell_app/view/widgets/custom_button.dart';
+import '../../widgets/widget_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../utils/const_path.dart';
 
-import '../../widgets/profile_textfiled.dart';
 
 class ChangeAddress extends StatefulWidget {
   const ChangeAddress({super.key});
@@ -21,7 +20,6 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     nameController.dispose();
     addressController.dispose();
@@ -32,19 +30,19 @@ class _ChangeAddressState extends State<ChangeAddress> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundColor(
+    return backgroundColor(
         child: Scaffold(
             backgroundColor: Colors.transparent,
             body: SafeArea(
                 child: SingleChildScrollView(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 5.sh,
-                    child: Column(
-                                children: [
+              child: SizedBox(
+                width: double.infinity,
+                height: 5.sh,
+                child: Column(
+                  children: [
                     Container(
-                      margin:
-                          const EdgeInsets.symmetric(horizontal: 130, vertical: 40),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 130, vertical: 40),
                       child: const Text("Address",
                           style: TextStyle(
                               fontSize: 25.519121170043945,
@@ -53,7 +51,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                     ),
                     Column(
                       children: [
-                        ProfileTextFiled(
+                        CustomNewTextFiled(
                           text: 'Name',
                           height: 75.h,
                           hintText: 'joy',
@@ -63,7 +61,7 @@ class _ChangeAddressState extends State<ChangeAddress> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ProfileTextFiled(
+                            CustomNewTextFiled(
                               text: 'city',
                               height: 75.h,
                               width: 170,
@@ -71,29 +69,29 @@ class _ChangeAddressState extends State<ChangeAddress> {
                               keyboardType: TextInputType.name,
                               controller: cityController,
                             ),
-                            ProfileTextFiled(
+                            CustomNewTextFiled(
                               text: 'country',
                               height: 75.h,
                               width: 170,
                               hintText: 'india',
                               keyboardType: TextInputType.text,
-                              controller:cityController,
+                              controller: countryController,
                             ),
                           ],
                         ),
-                        ProfileTextFiled(
+                        CustomNewTextFiled(
                           text: 'Phone number',
                           height: 75.h,
                           hintText: '9924264245',
                           keyboardType: TextInputType.number,
                           controller: phoneNumberController,
                         ),
-                        ProfileTextFiled(
+                        CustomNewTextFiled(
                           text: 'Address',
                           height: 75.h,
                           hintText: 'Chhatak, Sunamgonj 12/8AB',
                           keyboardType: TextInputType.streetAddress,
-                          controller: phoneNumberController,
+                          controller: addressController,
                         ),
                         const SizedBox(
                           height: 25,
@@ -109,11 +107,9 @@ class _ChangeAddressState extends State<ChangeAddress> {
                         )
                       ],
                     )
-                                ],
-                              ),
-                  ),
-                ))));
+                  ],
+                ),
+              ),
+            ))));
   }
 }
-
-// const EdgeInsets.symmetric(vertical: 40,horizontal: 120),

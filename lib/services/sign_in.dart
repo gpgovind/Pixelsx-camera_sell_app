@@ -1,11 +1,8 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/navigation.dart';
 import '../utils/toast_message.dart';
-import '../view/pages/welcome screen and auth screen/firebase_auth_screen.dart';
+
 
 Future<void> signInUser(
     {required BuildContext context,
@@ -22,15 +19,11 @@ Future<void> signInUser(
     log('User signed in successfully. Email: $userEmail');
 
     // ignore: use_build_context_synchronously
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    ).then((value) =>  CustomNavigator.navigationPushReplace(context: context, child: const AuthPage()));
 
-    await Future.delayed(const Duration(seconds: 2));
-    // ignore: use_build_context_synchronously
-    Navigator.of(context, rootNavigator: true).pop();
+
+    // await Future.delayed(const Duration(seconds: 2));
+    // // ignore: use_build_context_synchronously
+    // Navigator.of(context, rootNavigator: true).pop();
   } on FirebaseAuthException catch (e) {
     if (e.code == 'firebase_auth/invalid-email') {
       // Handle invalid email format error

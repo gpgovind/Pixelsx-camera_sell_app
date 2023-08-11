@@ -1,11 +1,11 @@
 import 'package:camera_sell_app/services/login.dart';
-import 'package:camera_sell_app/utils/background_image.dart';
-import 'package:camera_sell_app/view/widgets/login_textfield.dart';
+import 'package:camera_sell_app/view/pages/welcome%20screen%20and%20auth%20screen/forget_pass_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../utils/const_path.dart';
+import '../../../services/forget_password.dart';
 import '../../../services/google_auth.dart';
-import '../../widgets/custom_button.dart';
+import '../../widgets/widget_path.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,14 +16,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -65,24 +62,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                     key: formKey,
                                     child: Column(
                                       children: [
-                                        LoginTextField(
+                                        CustomTextField(
                                           keyboardType:
                                               TextInputType.emailAddress,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter email';
+                                            }
+                                            return null;
+                                          },
                                           controller: emailController,
                                           image: "lib/assets/mail-icon2.png",
                                           hintText: 'Email',
-                                          height: 25,
                                         ),
                                         SizedBox(
                                           height: 20.h,
                                         ),
-                                        LoginTextField(
+                                        CustomTextField(
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter password';
+                                            }
+                                            return null;
+                                          },
                                           keyboardType: TextInputType.text,
                                           controller: passwordController,
                                           obscureText: true,
                                           image: "lib/assets/paas-icon.png",
                                           hintText: 'Password',
-                                          height: 25.h,
                                         ),
                                       ],
                                     ),
@@ -96,7 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: Row(
                                     children: [
                                       TextButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            CustomNavigator.navigationPush(context: context, child: const ForgetPassScreen());
+                                          },
                                           child: const Text("Forget Password?",
                                               style: TextStyle(
                                                   fontSize: 14,

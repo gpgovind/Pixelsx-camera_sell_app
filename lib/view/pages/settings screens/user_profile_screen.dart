@@ -1,9 +1,8 @@
-import 'package:camera_sell_app/utils/background_color.dart';
-import 'package:camera_sell_app/view/widgets/custom_button.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../widgets/profile_textfiled.dart';
+import '../../../utils/const_path.dart';
+import '../../widgets/widget_path.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -20,7 +19,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+   
     super.dispose();
     nameController.dispose();
     lastNameController.dispose();
@@ -30,7 +29,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundColor(
+    return backgroundColor(
         child: Scaffold(
             backgroundColor: Colors.transparent,
             body: SafeArea(
@@ -58,33 +57,33 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                     Column(
                       children: [
-                        ProfileTextFiled(
+                        CustomNewTextFiled(
                           text: 'Name',
                           height: 75.h,
                           hintText: 'Rasna',
                           keyboardType: TextInputType.name,
                           controller: nameController,
                         ),
-                        ProfileTextFiled(
+                        CustomNewTextFiled(
                           text: 'last name',
                           height: 75.h,
                           hintText: 'ck',
                           keyboardType: TextInputType.name,
-                          controller: nameController,
+                          controller: lastNameController,
                         ),
-                        ProfileTextFiled(
+                        CustomNewTextFiled(
                           text: 'Phone number',
                           height: 75.h,
                           hintText: '993451359',
                           keyboardType: TextInputType.name,
-                          controller: nameController,
+                          controller:phoneNumberController,
                         ),
-                        ProfileTextFiled(
+                        CustomNewTextFiled(
                           text: 'email',
                           height: 75.h,
                           hintText: 'rasnack@gmail.com',
                           keyboardType: TextInputType.name,
-                          controller: nameController,
+                          controller:emailController,
                         ),
                         const SizedBox(
                           height: 25,
@@ -107,4 +106,3 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 }
 
-// const EdgeInsets.symmetric(vertical: 40,horizontal: 120),

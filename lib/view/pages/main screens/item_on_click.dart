@@ -1,11 +1,24 @@
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
-import 'package:camera_sell_app/utils/background_color.dart';
-import 'package:camera_sell_app/utils/item_increase_and_degrees.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../utils/const_path.dart';
+
+
 
 class ItemOnClick extends StatefulWidget {
-  const ItemOnClick({super.key});
+
+  final String imageUrl;
+  final String productName;
+  final String productPrice;
+  final String productRating;
+  final String productDescription;
+
+  const ItemOnClick({super.key,
+      required this.imageUrl,
+    required this.productName,
+    required this.productPrice,
+    required this.productRating,
+    required this.productDescription,});
 
   @override
   State<ItemOnClick> createState() => _ItemOnClickState();
@@ -24,7 +37,7 @@ class _ItemOnClickState extends State<ItemOnClick> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundColor(
+    return backgroundColor(
       child: Scaffold(
         bottomNavigationBar: BottomBarWithSheet(
           controller: _bottomBarController,
@@ -75,7 +88,7 @@ class _ItemOnClickState extends State<ItemOnClick> {
                         const SizedBox(
                           width: 2,
                         ),
-                        Text("4.8",
+                        Text(widget.productRating,
                             style: TextStyle(
                                 fontSize: 19.311471939086914.sp,
                                 fontWeight: FontWeight.w400,
@@ -96,14 +109,14 @@ class _ItemOnClickState extends State<ItemOnClick> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("SONY 200mm Zoom",
+                        Text(widget.productName,
                             style: TextStyle(
                                 fontSize: 25.519121170043945.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white)),
                         Row(
                           children: [
-                            Text("₹ 6000",
+                            Text(widget.productPrice,
                                 style: TextStyle(
                                     fontSize: 25.519121170043945.sp,
                                     fontWeight: FontWeight.w400,
@@ -132,7 +145,7 @@ class _ItemOnClickState extends State<ItemOnClick> {
                       height: 33,
                     ),
                     Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisis tellus, est lacus arcu ut ac in fermentum. Sit eget proin nunc felis quam rutrum metus. Et lacus, maecenas vel et arcu ut adipiscing morbi eget. At arcu varius ullamcorper eu varius  ",
+                     widget.productDescription,
                       style: TextStyle(
                         fontSize: 22.863384246826172.sp,
                         fontWeight: FontWeight.w400,
@@ -158,11 +171,7 @@ class _ItemOnClickState extends State<ItemOnClick> {
                 Expanded(
                   child: InteractiveViewer(
                     child: Center(
-                        child: Image.asset(
-                      'lib/assets/-1.png',
-                      // height: 400.h,
-                      // width: 400.w,
-                    )),
+                       child: CashNetworkImage(imageUrl: widget.imageUrl),),
                   ),
                 )
               ],

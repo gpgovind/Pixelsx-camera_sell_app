@@ -1,14 +1,12 @@
 import 'dart:async';
+import 'package:camera_sell_app/services/firebase_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:camera_sell_app/utils/background_color.dart';
-import 'package:camera_sell_app/view/widgets/card.dart';
-import 'package:camera_sell_app/view/widgets/custom_button.dart';
+import '../../widgets/widget_path.dart';
+import '../../../utils/const_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../utils/navigation.dart';
-import '../../widgets/arrow_custom_button.dart';
-import '../../widgets/item_on_click.dart';
+import 'item_on_click.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,39 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> camera = [
-    'lib/assets/splash camer -4.jpg',
-    'lib/assets/splash camer -3.jpg',
-    'lib/assets/splash camer -2.jpg',
-    'lib/assets/splash camer -1.jpg'
-  ];
-
-  int currentIndex = 0;
-  late Timer _imageChangeTimer;
-
-  @override
-  void initState() {
-    super.initState();
-    startImageChangeTimer();
-  }
-
-  void startImageChangeTimer() {
-    _imageChangeTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      setState(() {
-        currentIndex = (currentIndex + 1) % camera.length;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _imageChangeTimer.cancel(); // Cancel the timer in the dispose() method
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BackgroundColor(
+    return backgroundColor(
       child: SafeArea(
         child: Column(
           children: [
@@ -87,6 +55,11 @@ class _HomePageState extends State<HomePage> {
                   height: 20.h,
                 ),
                 CustomCard(
+                    colors: const [
+                      Color.fromRGBO(50, 52, 59, 1),
+                      Color.fromRGBO(72, 76, 87, 1),
+                      Color.fromRGBO(29, 31, 35, 1),
+                    ],
                     cardHight: 300.h,
                     cardWidth: 0.6.sh,
                     elevation: 3,
@@ -94,17 +67,7 @@ class _HomePageState extends State<HomePage> {
                     margin: const EdgeInsets.all(7),
                     child: Stack(
                       children: [
-                        Container(
-                          width: 600.w,
-                          height: 300.h,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18).r,
-                              image: DecorationImage(
-                                opacity: 0.5,
-                                fit: BoxFit.cover,
-                                image: AssetImage(camera[currentIndex]),
-                              )),
-                        ),
+                        const SlideImage(),
                         Positioned(
                           left: 15,
                           top: 25,
@@ -148,401 +111,139 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  height: 300.sh,
-                  width: double.infinity,
-                  child: GridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    children: [
-                      CustomCard(
-                          cardHight: 50.h,
-                          cardWidth: 50.w,
-                          elevation: 4,
-                          radius: 18.r,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 10,
-                                left: 20,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/rating-icon.png',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Text("4.8",
+            const SizedBox(
+              height: 10,
+            ),
+            StreamBuilder<QuerySnapshot<Object?>>(
+              stream: FireStoreServices.getProductsImage(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('Error fetching data'),
+                  );
+                } else {
+                  final products = snapshot.data!.docs;
+
+                  return Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 10.sh,
+                      child: GridView.builder(
+                        itemCount: products.length,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 5),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2, childAspectRatio: 8 / 8),
+                        itemBuilder: (context, index) {
+                          final productData =
+                              products[index].data() as Map<String, dynamic>;
+                          final productName = productData['P_name'];
+                          final productPrice = productData['p_price'];
+                          final productRating = productData['p_rating'];
+                          final productDescription = productData['P_spec'];
+                          final imageUrl = productData['P_image'] as String;
+
+                          return CustomCard(
+                            colors: const [
+                              Color.fromRGBO(50, 52, 59, 1),
+                              Color.fromRGBO(72, 76, 87, 1),
+                              Color.fromRGBO(29, 31, 35, 1),
+                            ],
+                            elevation: 4,
+                            radius: 18.r,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  top: 10,
+                                  left: 20,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "$productRating",
                                         style: TextStyle(
-                                            fontSize: 16.311471939086914.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white)),
-                                  ],
+                                          fontSize: 16.311471939086914.sp,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                // left: 4,
-                                top: 30,
-                                right: 50,
-                                child: Image.asset(
-                                  'lib/assets/camera photo-1.png',
-                                  width: 130.w,
-                                  height: 130.h,
-                                  fit: BoxFit.cover,
+                                // Positioned(
+                                //   top: 30,
+                                //   right: 50,
+                                //   child: FittedBox(
+                                //     child: Image.network(
+                                //       imageUrl.isNotEmpty
+                                //           ? imageUrl
+                                //           : 'default_image_url_here',
+                                //       width: 100,
+                                //       height: 100,
+                                //       fit: BoxFit.cover,
+                                //     ),
+                                //   ),
+                                // ),
+                                Positioned(
+                                  top:20,
+                                  right: 20,
+                                  child: FittedBox(child: CashNetworkImage(imageUrl: imageUrl)),
                                 ),
-                              ),
-                              Positioned(
-                                bottom: 60.h,
-                                left: 20.w,
-                                child: Text("Canon EROS 600D",
+                                Positioned(
+                                  bottom: 60.h,
+                                  left: 20.w,
+                                  child: Text(
+                                    productName,
                                     style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                              Positioned(
+                                      fontSize: 18.3.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
                                   bottom: 10.h,
                                   right: 15.w,
                                   child: ArrowCustomButton(
-                                    onTap: () {
+                                    onTap: () async {
                                       CustomNavigator.navigationPush(
-                                          context: context,
-                                          child: const ItemOnClick());
+                                        context: context,
+                                        child: ItemOnClick(
+                                            imageUrl: imageUrl,
+                                            productName: productName,
+                                            productPrice: productPrice,
+                                            productRating: productRating,
+                                            productDescription:
+                                                productDescription),
+                                      );
                                     },
-                                  )),
-                              Positioned(
-                                bottom: 20.h,
-                                left: 20.w,
-                                child: Text("₹ 300000",
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 20.h,
+                                  left: 20.w,
+                                  child: Text(
+                                    "₹ $productPrice",
                                     style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                            ],
-                          )),
-                      CustomCard(
-                          cardHight: 300.h,
-                          cardWidth: 200.w,
-                          elevation: 4,
-                          radius: 18.r,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 10,
-                                left: 20,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/rating-icon.png',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      fit: BoxFit.cover,
+                                      fontSize: 18.311471939086914.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
                                     ),
-                                    Text("4.8",
-                                        style: TextStyle(
-                                            fontSize: 16.311471939086914.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white)),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                top: 20,
-                                right: 50,
-                                child: Image.asset(
-                                  'lib/assets/camera photo -2.png',
-                                  width: 130.w,
-                                  height: 130.h,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 60.h,
-                                left: 20.w,
-                                child: Text("Canon EOS 30D",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                              Positioned(
-                                  bottom: 10.h,
-                                  right: 15.w,
-                                  child: ArrowCustomButton(
-                                    onTap: () {},
-                                  )),
-                              Positioned(
-                                bottom: 20.h,
-                                left: 20.w,
-                                child: Text("₹ 120000",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                            ],
-                          )),
-                      CustomCard(
-                          cardHight: 300.h,
-                          cardWidth: 200.w,
-                          elevation: 4,
-                          radius: 18.r,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 10,
-                                left: 20,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/rating-icon.png',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Text("4.5",
-                                        style: TextStyle(
-                                            fontSize: 16.311471939086914.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                top: 20,
-                                right: 40,
-                                child: Image.asset(
-                                  'lib/assets/camera-image 5.png',
-                                  width: 130.w,
-                                  height: 130.h,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 60.h,
-                                left: 20.w,
-                                child: Text("SONY 23mm rs ",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                              Positioned(
-                                  bottom: 10.h,
-                                  right: 15.w,
-                                  child: ArrowCustomButton(
-                                    onTap: () {},
-                                  )),
-                              Positioned(
-                                bottom: 20.h,
-                                left: 20.w,
-                                child: Text("₹ 50000",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                            ],
-                          )),
-                      CustomCard(
-                          cardHight: 300.h,
-                          cardWidth: 200.w,
-                          elevation: 4,
-                          radius: 18.r,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 10,
-                                left: 20,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/rating-icon.png',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Text("4.5",
-                                        style: TextStyle(
-                                            fontSize: 16.311471939086914.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                top: 10,
-                                right: 40,
-                                child: Image.asset(
-                                  'lib/assets/camera photo-4.png',
-                                  width: 130.w,
-                                  height: 130.h,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 60.h,
-                                left: 20.w,
-                                child: Text("SONY 200mm Zoom",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                              Positioned(
-                                  bottom: 10.h,
-                                  right: 15.w,
-                                  child: ArrowCustomButton(
-                                    onTap: () {},
-                                  )),
-                              Positioned(
-                                bottom: 20.h,
-                                left: 20.w,
-                                child: Text("₹ 100000",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                            ],
-                          )),
-                      CustomCard(
-                          cardHight: 300.h,
-                          cardWidth: 200.w,
-                          elevation: 4,
-                          radius: 18.r,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 10,
-                                left: 20,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/rating-icon.png',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Text("4.5",
-                                        style: TextStyle(
-                                            fontSize: 16.311471939086914.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                top: 20,
-                                right: 50,
-                                child: Image.asset(
-                                  'lib/assets/camera-image 5.png',
-                                  width: 130.w,
-                                  height: 130.h,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 60.h,
-                                left: 20.w,
-                                child: Text("SONY 23mm rs ",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                              Positioned(
-                                  bottom: 10.h,
-                                  right: 15.w,
-                                  child: ArrowCustomButton(
-                                    onTap: () {},
-                                  )),
-                              Positioned(
-                                bottom: 20.h,
-                                left: 20.w,
-                                child: Text("₹ 50000",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                            ],
-                          )),
-                      CustomCard(
-                          cardHight: 300.h,
-                          cardWidth: 200.w,
-                          elevation: 4,
-                          radius: 18.r,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 10,
-                                left: 20,
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      'lib/assets/rating-icon.png',
-                                      width: 20.w,
-                                      height: 20.h,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Text("4.5",
-                                        style: TextStyle(
-                                            fontSize: 16.311471939086914.sp,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.white)),
-                                  ],
-                                ),
-                              ),
-                              Positioned(
-                                top: 20,
-                                right: 50,
-                                child: Image.asset(
-                                  'lib/assets/camera photo-4.png',
-                                  width: 130.w,
-                                  height: 130.h,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 60.h,
-                                left: 20.w,
-                                child: Text("SONY 200mm Zoom",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                              Positioned(
-                                  bottom: 10.h,
-                                  right: 15.w,
-                                  child: ArrowCustomButton(
-                                    onTap: () {},
-                                  )),
-                              Positioned(
-                                bottom: 20.h,
-                                left: 20.w,
-                                child: Text("₹ 100000",
-                                    style: TextStyle(
-                                        fontSize: 18.311471939086914.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white)),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                ),
-              ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                }
+              },
             )
           ],
         ),
@@ -550,3 +251,34 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
+
+
+
+
+
+
+// GestureDetector(
+//                             onTap: () {
+//                               // Handle product tap, e.g., navigate to product details screen
+//                             },
+//                             child: Card(
+//                               // Customize the card appearance
+//                               child: Column(
+//                                 children: [
+//                                   Image.network(
+//                                     imageUrl.isNotEmpty
+//                                         ? imageUrl
+//                                         : 'default_image_url_here',
+//                                     width: 100,
+//                                     height: 100,
+//                                     fit: BoxFit.cover,
+//                                   ),
+//                                   Text(productName),
+//                                   Text('₹ $productPrice'),
+//                                   Text('Rating: $productRating'),
+//                                 ],
+//                               ),
+//                             ),
+//                           );

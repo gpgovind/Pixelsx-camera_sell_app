@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:neopop/neopop.dart';
 
 Widget neoPopBtn({required String text, void Function()? onTapUp}) => Container(
@@ -24,23 +25,33 @@ Widget neoPopBtn({required String text, void Function()? onTapUp}) => Container(
       ),
     );
 
-Widget neoPopBtnNew({required String text}) => NeoPopButton(
-      color: const Color.fromRGBO(153, 153, 153, 1),
-      bottomShadowColor: Colors.white30,
-      rightShadowColor: Colors.white30,
+Widget neoPopBtnNew({required String text,
+Color? bottomShadowColor,
+Color? rightShadowColor,
+required Color color,
+double vertical = 0.0,
+double horizontal =0.0,
+Color? textColor,
+void Function()? onTapUp,
+Color? leftShadowColor
+}) => NeoPopButton(
+      color: color,
+      bottomShadowColor:bottomShadowColor,
+      rightShadowColor: rightShadowColor,
       animationDuration: const Duration(microseconds: 5000),
-      leftShadowColor: Colors.white,
+      leftShadowColor: leftShadowColor,
       depth: 4,
-      onTapUp: () {},
+      onTapUp: onTapUp,
+      onTapDown: ()=>HapticFeedback.vibrate(),
       border: Border.all(
         color: Colors.black,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding:  EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(text, style: const TextStyle(color: Colors.white)),
+            Text(text, style:  TextStyle(color:textColor)),
           ],
         ),
       ),

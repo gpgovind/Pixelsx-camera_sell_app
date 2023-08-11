@@ -1,9 +1,8 @@
 import 'dart:developer';
-import 'package:camera_sell_app/view/pages/welcome%20screen%20and%20auth%20screen/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../widgets/bottom_nav.dart';
+import '../../widgets/widget_path.dart';
+import 'welcome_screen.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);

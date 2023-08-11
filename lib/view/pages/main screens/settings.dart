@@ -1,18 +1,51 @@
-import 'package:camera_sell_app/utils/background_color.dart';
+import 'dart:developer';
+import '../../../utils/const_path.dart';
 import 'package:camera_sell_app/view/pages/settings%20screens/change_address.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../services/login.dart';
-import '../../../utils/navigation.dart';
 import '../settings screens/user_profile_screen.dart';
+import '../../widgets/widget_path.dart';
 
-class Settings extends StatelessWidget {
+
+class Settings extends StatefulWidget {
   const Settings({super.key});
 
   @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool _isAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAdminStatus(context);
+  }
+
+  void _checkAdminStatus(BuildContext context) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        // Replace "gp@gmail.com" with the admin's email address
+        if (user.email == "gp@gmail.com") {
+          setState(() {
+            _isAdmin = true;
+          });
+        }
+      }
+    } catch (e) {
+      // Handle any errors here
+      log("Error checking admin status: $e");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BackgroundColor(
+    return backgroundColor(
         child: SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
@@ -58,24 +91,7 @@ class Settings extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Column(
                 children: [
-                  const ListTile(
-                    leading: Icon(
-                      Icons.admin_panel_settings_outlined,
-                      color: Colors.white,
-                    ),
-                    title: Text("Admin",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white)),
-                    trailing: Icon(
-                      Icons.arrow_forward_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const Divider(
-                    color: Colors.white,
-                  ),
+                  isAdmin(_isAdmin,context),
 
                   ///---//
                   ListTile(
@@ -193,5 +209,37 @@ class Settings extends StatelessWidget {
         ),
       ),
     ));
+  }
+}
+
+Widget isAdmin(isAdmin,context) {
+  if (isAdmin) {
+    return Column(
+      children: [
+        ListTile(
+          onTap: () {
+            CustomNavigator.navigationPush(context: context, child:const NewCustomizations() );
+          },
+          leading: const Icon(
+            Icons.admin_panel_settings_outlined,
+            color: Colors.white,
+          ),
+          title: const Text("Admin",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white)),
+          trailing: const Icon(
+            Icons.arrow_forward_outlined,
+            color: Colors.white,
+          ),
+        ),
+        const Divider(
+          color: Colors.white,
+        )
+      ],
+    );
+  } else {
+    return Container();
   }
 }

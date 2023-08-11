@@ -27,6 +27,7 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
+      sized: true,
       value: SystemUiOverlayStyle(
         systemNavigationBarColor: navigationBarColor,
         systemNavigationBarIconBrightness: Brightness.dark,

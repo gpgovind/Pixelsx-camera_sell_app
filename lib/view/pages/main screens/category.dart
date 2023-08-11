@@ -1,14 +1,14 @@
-import 'package:camera_sell_app/utils/background_color.dart';
-import 'package:camera_sell_app/view/widgets/card.dart';
+import '../../../utils/const_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../widgets/widget_path.dart';
 
 class Category extends StatelessWidget {
   const Category({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundColor(
+    return backgroundColor(
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -18,6 +18,11 @@ class Category extends StatelessWidget {
               height: 10.sh,
               child: Column(children: [
                 CustomCard(
+                   colors: const [
+                            Color.fromRGBO(50, 52, 59, 1),
+                            Color.fromRGBO(72, 76, 87, 1),
+                            Color.fromRGBO(29, 31, 35, 1),
+                          ],
                     cardHight: 250.h,
                     cardWidth: double.infinity,
                     elevation: 6,
@@ -47,6 +52,11 @@ class Category extends StatelessWidget {
                   height: 10.h,
                 ),
                 CustomCard(
+                   colors: const [
+                            Color.fromRGBO(50, 52, 59, 1),
+                            Color.fromRGBO(72, 76, 87, 1),
+                            Color.fromRGBO(29, 31, 35, 1),
+                          ],
                     cardHight: 250.h,
                     cardWidth: double.infinity,
                     elevation: 6,
@@ -76,6 +86,11 @@ class Category extends StatelessWidget {
                   height: 10.h,
                 ),
                 CustomCard(
+                   colors: const [
+                            Color.fromRGBO(50, 52, 59, 1),
+                            Color.fromRGBO(72, 76, 87, 1),
+                            Color.fromRGBO(29, 31, 35, 1),
+                          ],
                     cardHight: 250.h,
                     cardWidth: double.infinity,
                     elevation: 6,
@@ -105,6 +120,11 @@ class Category extends StatelessWidget {
                   height: 10.h,
                 ),
                 CustomCard(
+                   colors: const [
+                            Color.fromRGBO(50, 52, 59, 1),
+                            Color.fromRGBO(72, 76, 87, 1),
+                            Color.fromRGBO(29, 31, 35, 1),
+                          ],
                     cardWidth: double.infinity,
                     cardHight: 250.h,
                     elevation: 6,
@@ -121,7 +141,7 @@ class Category extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 50),
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
                         ),
                         Text("Action Cameras",
                             style: TextStyle(

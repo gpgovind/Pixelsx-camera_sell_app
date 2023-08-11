@@ -28,8 +28,8 @@ Widget customDegreesButton = Card(
   elevation: 8,
   color: Colors.transparent,
   child: Container(
-    width: 40.83059310913086.w,
-    height: 40.83059310913086.h,
+    width: 40.830.w,
+    height: 40.830.h,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8), // Add border radius
       gradient: const LinearGradient(

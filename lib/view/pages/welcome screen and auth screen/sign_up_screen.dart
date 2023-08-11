@@ -1,39 +1,34 @@
 import 'package:camera_sell_app/services/google_auth.dart';
-import 'package:camera_sell_app/utils/background_image.dart';
-
-import 'package:camera_sell_app/view/widgets/custom_button.dart';
-import 'package:camera_sell_app/view/widgets/sign_textfield.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../services/cloud_store.dart';
+import '../../widgets/widget_path.dart';
 import 'firebase_auth_screen.dart';
 import '../../../services/sign_in.dart';
-import '../../../utils/toast_message.dart';
+import '../../../utils/const_path.dart';
 
-class SignScreen extends StatefulWidget {
-  SignScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignScreen> createState() => _SignScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignScreenState extends State<SignScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
 
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
-
   final confirmPasswordController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    nameController.dispose();
   }
 
   @override
@@ -70,7 +65,21 @@ class _SignScreenState extends State<SignScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          SignTextField(
+                          CustomTextField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter name';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.name,
+                              controller: nameController,
+                              hintText: 'name',
+                              image: 'lib/assets/user icon.png'),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter email';
@@ -84,7 +93,7 @@ class _SignScreenState extends State<SignScreen> {
                           const SizedBox(
                             height: 10,
                           ),
-                          SignTextField(
+                          CustomTextField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter password';
@@ -99,7 +108,7 @@ class _SignScreenState extends State<SignScreen> {
                           const SizedBox(
                             height: 10,
                           ),
-                          SignTextField(
+                          CustomTextField(
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter password';
@@ -121,18 +130,28 @@ class _SignScreenState extends State<SignScreen> {
                   GestureDetector(
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          if (passwordController.text == confirmPasswordController.text) {
+                          if (passwordController.text ==
+                              confirmPasswordController.text) {
                             await signInUser(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                context: context);
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    context: context)
+                                .then((value) {
+                              return  storeUserData(
+                                  email: emailController.text,
+                                  name: nameController.text,
+                                  password: passwordController.text);
+                            }).then((value) {
+                              CustomNavigator.navigationPushReplace(
+                                  context: context, child: const AuthPage());
+                            });
                           } else {
                             errorMessage(context, 'password incorrect');
                           }
                         }
                       },
                       child: CustomButton(
-                          buttonName: 'Sign',
+                          buttonName: 'Sign Up',
                           hight: 80.h,
                           radius: 20.r,
                           width: 350.w)),
@@ -149,12 +168,10 @@ class _SignScreenState extends State<SignScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      await AuthService()
-                          .signInWithGoogle(context)
-                          .then((value) => {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (_) => const AuthPage()))
+                      await AuthService().signInWithGoogle(context).then(
+                          (value) => {
+                                CustomNavigator.navigationPushReplace(
+                                    context: context, child: const AuthPage())
                               });
                     },
                     child: Container(

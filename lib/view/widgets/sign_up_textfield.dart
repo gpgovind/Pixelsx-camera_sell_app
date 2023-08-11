@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// ignore: must_be_immutable
-class LoginTextField extends StatefulWidget {
-  TextEditingController controller = TextEditingController();
-  final double height;
+class CustomTextField extends StatefulWidget {
   final String image;
+  final TextEditingController controller;
   final String hintText;
-  final TextInputType keyboardType;
+  final String? Function(String?)? validator;
   final bool obscureText;
-  LoginTextField(
+  final TextInputType? keyboardType;
+
+  const CustomTextField(
       {super.key,
-      required this.image,
       required this.hintText,
-      required this.height,
-      required this.keyboardType,
+      this.keyboardType,
       this.obscureText = false,
+      required this.image,
+      this.validator,
       required this.controller});
 
   @override
-  State<LoginTextField> createState() => _LoginTextFieldState();
+  State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
-class _LoginTextFieldState extends State<LoginTextField> {
+class _CustomTextFieldState extends State<CustomTextField> {
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Image.asset(
           widget.image,
-          height: widget.height,
-          width: 21.875.w,
+          height: 25.h,
           color: Colors.white,
+          width: 21.875.w,
         ),
         const SizedBox(
           width: 15,
@@ -52,15 +53,10 @@ class _LoginTextFieldState extends State<LoginTextField> {
               )),
           child: Center(
             child: TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              controller: widget.controller,
-              keyboardType: widget.keyboardType,
               obscureText: widget.obscureText,
+              keyboardType: widget.keyboardType,
+              validator: widget.validator,
+              controller: widget.controller,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16),

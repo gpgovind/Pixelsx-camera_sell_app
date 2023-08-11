@@ -1,12 +1,11 @@
-import 'package:camera_sell_app/view/pages/welcome%20screen%20and%20auth%20screen/login_screen.dart';
-import 'package:camera_sell_app/view/pages/welcome%20screen%20and%20auth%20screen/sign_screen.dart';
-import 'package:camera_sell_app/utils/sing_button.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../utils/background_color.dart';
-import '../../../utils/login_button.dart';
+import '../../../utils/custom_front_button.dart';
 import '../../../utils/navigation.dart';
+import 'login_screen.dart';
+import 'sign_up_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -18,7 +17,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return BackgroundColor(
+    return backgroundColor(
         child: Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
@@ -40,21 +39,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 const SizedBox(
                   height: 30,
                 ),
-                GestureDetector(
+                customFrontButton(
+                    text: 'Sign Up',
                     onTap: () {
                       CustomNavigator.navigationPush(
-                          context: context, child: SignScreen());
-                    },
-                    child: customSignButton),
+                          context: context, child: const SignUpScreen());
+                    }),
                 const SizedBox(
                   height: 30,
                 ),
-                GestureDetector(
+                customFrontButton(
+                    text: 'Login',
                     onTap: () {
                       CustomNavigator.navigationPush(
                           context: context, child: const LoginScreen());
-                    },
-                    child: customLoginButton)
+                    }),
               ],
             ),
           ],
