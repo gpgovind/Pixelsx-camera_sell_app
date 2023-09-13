@@ -1,28 +1,30 @@
-import 'package:camera_sell_app/view/pages/welcome%20screen%20and%20auth%20screen/firebase_auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'screens/pages/auth screens/firebase_auth_screen.dart';
+import 'utils/const_path.dart';
 // import 'package:motion/motion.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  try {
-    await Firebase.initializeApp();
-  } catch (e) {
-    const CircularProgressIndicator();
-   // show an error message to the user
-  }
-
-  runApp(const MyApp());
+  configEasyLoading();
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+final firebaseinitializerProvider = FutureProvider<FirebaseApp>((ref) async {
+  return await Firebase.initializeApp();
+});
+
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final initialize = ref.watch(firebaseinitializerProvider);
     return ScreenUtilInit(
       designSize: const Size(478.48, 1036.08),
       minTextAdapt: true,
@@ -32,7 +34,13 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
         ),
-        home: const AuthPage(),
+        builder: EasyLoading.init(),
+        home: initialize.when(
+            data: (data) {
+              return const AuthPage();
+            },
+            error: (e, stackTrace) => loading(),
+            loading: () => loading()),
       ),
     );
   }

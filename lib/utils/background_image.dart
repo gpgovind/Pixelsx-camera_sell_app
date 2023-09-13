@@ -1,3 +1,4 @@
+import 'package:camera_sell_app/utils/const_path.dart';
 import 'package:flutter/material.dart';
 
 class BackgroundImage extends StatelessWidget {
@@ -11,8 +12,9 @@ class BackgroundImage extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
           image: DecorationImage(
+           colorFilter: ColorFilter.mode(Colors.black54,BlendMode.softLight ),
               fit: BoxFit.cover,
-              image: AssetImage('lib/assets/garvit-3IyjBegTXLA-unsplash.jpg'))),
+              image: AssetImage(backgroundImage))),
       child: child,
     );
   }

@@ -6,7 +6,7 @@ Widget customFrontButton({void Function()? onTap, required String text}) =>
       onTap: onTap,
       child: Container(
         height: 60.h,
-        width: 320.w,
+        width: 350.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20), // Add border radius
 

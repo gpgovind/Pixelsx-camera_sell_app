@@ -1,3 +1,4 @@
+import 'package:camera_sell_app/utils/color_and_text.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -10,7 +11,7 @@ class CashNetworkImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       imageBuilder: (context, imageProvider) => Container(
-        height: 80,
+        height: 100,
         width: 133,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -20,7 +21,7 @@ class CashNetworkImage extends StatelessWidget {
         ),
       ),
       placeholder: (context, url) => const CircularProgressIndicator(),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+      errorWidget: (context, url, error) =>  Icon(Icons.error,color:customTextColor,size: 30,),
     );
   }
 }

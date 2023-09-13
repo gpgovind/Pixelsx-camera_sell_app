@@ -3,7 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 
 class CustomNavigator {
-  static void navigationPush(
+  static  navigationPush(
       {required BuildContext context, required Widget child}) {
     Navigator.push(
       context,
@@ -16,7 +16,7 @@ class CustomNavigator {
     );
   }
 
-  static void navigationPushReplace(
+  static  navigationPushReplace(
       {required BuildContext context, required Widget child}) {
     Navigator.pushReplacement(
       context,
@@ -29,7 +29,7 @@ class CustomNavigator {
     );
   }
 
-  static void navigationPop({
+  static  navigationPop({
     required BuildContext context,
   }) {
     Navigator.of(context).pop();
