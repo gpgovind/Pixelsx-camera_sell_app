@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 const usersCollection = 'user';
 const productsCollectionName = 'products';
 const productCategoryCollection = 'categories';
+const checkOut = 'checkOut';
 
 final storage = FirebaseStorage.instance;
 final rootRef = storage.ref();
@@ -25,3 +26,5 @@ CollectionReference cartAddAndList =
     FirebaseFirestore.instance.collection('carts');
 CollectionReference wishList =
     FirebaseFirestore.instance.collection(' wishList');
+CollectionReference checkOutCollection =
+    FirebaseFirestore.instance.collection(checkOut);

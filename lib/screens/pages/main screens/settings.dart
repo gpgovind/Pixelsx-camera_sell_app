@@ -1,10 +1,12 @@
 import 'dart:developer';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../utils/const_path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../settings screens/change_address.dart';
+import '../settings screens/order_details_screen.dart';
 import '../settings screens/user_profile_screen.dart';
 import '../../../widgets/widget_path.dart';
 
@@ -22,7 +24,6 @@ class _SettingsState extends ConsumerState<Settings> {
   void initState() {
     super.initState();
     _checkAdminStatus(context);
-    auth.currentUser!.emailVerified;
   }
 
   void _checkAdminStatus(BuildContext context) async {
@@ -52,7 +53,7 @@ class _SettingsState extends ConsumerState<Settings> {
     return backgroundColor(
         child: SafeArea(
       child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 50.h),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10.h),
           child: Column(
             children: [
               Padding(
@@ -71,11 +72,20 @@ class _SettingsState extends ConsumerState<Settings> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CircleAvatar(
-                              radius: 70.r,
+                              radius: 60.r,
                               backgroundColor: Colors.white,
-                              child: userImage != ''
-                                  ?CashNetworkImage(imageUrl: userImage)
-                                  : const Icon(Icons.person_outline_outlined,color: Colors.black,)),
+                              child: ClipOval(
+                                child: userImage != ''
+                                    ? CircleAvatar(
+                                        radius: 60,
+                                        backgroundImage:
+                                            NetworkImage(userImage),
+                                      )
+                                    : const Icon(
+                                        Icons.person_outline_outlined,
+                                        color: Colors.black,
+                                      ),
+                              )),
                           Column(
                             children: [
                               Text(userName,
@@ -102,122 +112,161 @@ class _SettingsState extends ConsumerState<Settings> {
                   )),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: Column(
-                  children: [
-                    isAdmin(_isAdmin, context),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                      child: Column(
+                    children: [
+                      isAdmin(_isAdmin, context),
 
-                    ///---//
-                    ListTile(
-                      leading: const Icon(
-                        Icons.person_3_outlined,
+                      ///---//
+                      ListTile(
+                        leading: const Icon(
+                          Icons.person_3_outlined,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          CustomNavigator.navigationPush(
+                              context: context,
+                              child: const UserProfileScreen());
+                        },
+                        title: const Text("Account",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                        trailing: const Icon(
+                          Icons.arrow_forward_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Divider(
                         color: Colors.white,
                       ),
-                      onTap: () {
-                        CustomNavigator.navigationPush(
-                            context: context, child: const UserProfileScreen());
-                      },
-                      title: const Text("Account",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white)),
-                      trailing: const Icon(
-                        Icons.arrow_forward_outlined,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Divider(
-                      color: Colors.white,
-                    ),
 
-                    ///---///
-                    ListTile(
-                      leading: const Icon(
-                        Icons.location_on_outlined,
-                        color: Colors.white,
+                      ///---///
+                      ListTile(
+                        leading: const Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          CustomNavigator.navigationPush(
+                              context: context, child: const ChangeAddress());
+                        },
+                        title: const Text("Change Address",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                        trailing: const Icon(
+                          Icons.arrow_forward_outlined,
+                          color: Colors.white,
+                        ),
                       ),
-                      onTap: () {
-                        CustomNavigator.navigationPush(
-                            context: context, child: const ChangeAddress());
-                      },
-                      title: const Text("Change Address",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white)),
-                      trailing: const Icon(
-                        Icons.arrow_forward_outlined,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Divider(
-                      color: Colors.white,
-                    ),
 
-                    ///---///
-                    const ListTile(
-                      leading: Icon(
-                        Icons.policy_outlined,
+                      ///---///
+                      const Divider(
                         color: Colors.white,
                       ),
-                      title: Text("Privacy Policy",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white)),
-                      trailing: Icon(
-                        Icons.arrow_forward_outlined,
+                      ListTile(
+                        leading: const Icon(
+                          Icons.wallet,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          CustomNavigator.navigationPush(
+                              context: context,
+                              child: const OrderDetailsScreen());
+                        },
+                        title: const Text("Order Info",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                        trailing: const Icon(
+                          Icons.arrow_forward_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Divider(
                         color: Colors.white,
                       ),
-                    ),
-                    const Divider(
-                      color: Colors.white,
-                    ),
 
-                    ///---///
-                    const ListTile(
-                      leading: Icon(
-                        Icons.info_outline,
+                      ///---///
+                      const ListTile(
+                        leading: Icon(
+                          Icons.policy_outlined,
+                          color: Colors.white,
+                        ),
+                        title: Text("Privacy Policy",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                        trailing: Icon(
+                          Icons.arrow_forward_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Divider(
                         color: Colors.white,
                       ),
-                      title: Text("About",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white)),
-                      trailing: Icon(
-                        Icons.arrow_forward_outlined,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Divider(
-                      color: Colors.white,
-                    ),
 
-                    ///---///
-                    ListTile(
-                      leading: const Icon(
-                        Icons.logout_outlined,
+                      ///---///
+                      const ListTile(
+                        leading: Icon(
+                          Icons.info_outline,
+                          color: Colors.white,
+                        ),
+                        title: Text("About",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                        trailing: Icon(
+                          Icons.arrow_forward_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Divider(
                         color: Colors.white,
                       ),
-                      onTap: () {
-              
-                         auth.signUserOut(context);
-                      },
-                      title: const Text("Logout",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white)),
-                      trailing: const Icon(
-                        Icons.arrow_forward_outlined,
-                        color: Colors.white,
-                      ),
-                    ),
 
-                    ///---///
-                  ],
+                      ///---///
+                      ListTile(
+                        leading: const Icon(
+                          Icons.logout_outlined,
+                          color: Colors.white,
+                        ),
+                        onTap: () {
+                          confirmation(
+                              info: 'are you sure.. ',
+                              icon: const Icon(Icons.logout_outlined),
+                              hideCancel: false,
+                              onPressed: () async {
+                                await auth
+                                    .signUserOut(context)
+                                    .whenComplete(() {
+                                  EasyLoading.dismiss();
+                                });
+                              });
+                        },
+                        title: const Text("Logout",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                        trailing: const Icon(
+                          Icons.arrow_forward_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      ///---///
+                    ],
+                  )),
                 ),
               ),
             ],

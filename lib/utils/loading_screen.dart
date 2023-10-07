@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-Widget loading() {
-  return const CircularProgressIndicator(
-    color: Colors.white,
+Widget loading({double? value}) {
+  return Center(
+    child: CircleAvatar(
+      radius: 30,
+      child: CircularProgressIndicator(
+        color: Colors.blue,
+        value: value,
+      ),
+    ),
+  );
+}
+
+Widget esLoading({double? value}) {
+  return CircularProgressIndicator(
+    color: Colors.blue,
+    value: value,
   );
 }
 
@@ -14,10 +27,10 @@ void configEasyLoading() {
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..progressColor = Colors.yellow
-    ..backgroundColor = Colors.green
-    ..indicatorColor = Colors.yellow
-    ..textColor = Colors.yellow
+    ..progressColor = Colors.blue
+    ..backgroundColor = Colors.white
+    ..indicatorColor = Colors.blue
+    ..textColor = Colors.black
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = false
     ..dismissOnTap = false;

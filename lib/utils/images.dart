@@ -3,19 +3,14 @@ const emailIcon ='lib/assets/icons/mail-icon2.png';
 const passwordIcon='lib/assets/icons/paas-icon.png';
 const ratingIcon='lib/assets/icons/rating-icon.png';
 const userIcon='lib/assets/icons/user icon.png';
-const appLog='lib/assets/log_pixels-removebg-preview.png';
+const appLog='lib/assets/app logo.png';
 const backgroundImage='lib/assets/garvit-3IyjBegTXLA-unsplash.jpg';
 const slideImage1='lib/assets/splash camer -1.jpg';
 const slideImage2='lib/assets/splash camer -2.jpg';
 const slideImage3='lib/assets/splash camer -3.jpg';
 const slideImage4='lib/assets/splash camer -4.jpg';
-const slideImage5='lib/assets/amari-james-MDMMttyMQYc-unsplash.jpg';
-const profileImage='lib/assets/rs.jpeg';
-const cameraImage1='lib/assets/-1.png';
-const cameraImage2='lib/assets/camera -5.png';
-const cameraImage3='lib/assets/camera photo -2.png';
-const cameraImage4='lib/assets/camera photo-1.png';
-const cameraImage5='lib/assets/camera photo-3.png';
-const cameraImage6='lib/assets/camera photo-4.png';
-const cameraImage7='lib/assets/camera-image 5.png';
+const wishListEmptyGif='lib/assets/wishlist-empty.gif';
+const cartEmptyGif='lib/assets/cart-empty.gif';
+const noOrderData='lib/assets/no-order.gif';
+
 

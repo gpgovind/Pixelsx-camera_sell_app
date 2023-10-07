@@ -9,6 +9,7 @@ import 'utils/const_path.dart';
 // import 'package:motion/motion.dart';
 
 Future<void> main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   configEasyLoading();
   runApp(const ProviderScope(child: MyApp()));

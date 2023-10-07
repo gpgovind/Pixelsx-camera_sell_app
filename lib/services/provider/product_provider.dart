@@ -1,6 +1,8 @@
 import 'package:camera_sell_app/utils/const_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/product_model.dart';
 import 'dart:developer';
@@ -10,6 +12,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 class ProductProvider {
   File? productPickedImage;
   String? productImageUrl;
+  int? cartTotalPrice;
 
   Future<void> addProduct(
       {required String categoryName, required Product product, context}) async {
@@ -17,7 +20,8 @@ class ProductProvider {
       final id = await findDocumentIdByCategory(categoryName);
 
       if (id == null || id.isEmpty) {
-        log('category is empty');
+        EasyLoading.showToast('category is not exist',
+            toastPosition: EasyLoadingToastPosition.top);
       } else {
         DocumentReference categoryDocRef =
             firestore.collection(productsCollectionName).doc();
@@ -28,7 +32,8 @@ class ProductProvider {
           'p_description': product.productDescription,
           'p_image': product.productImage,
           'p_categoryId': id,
-          'p_stock': product.productStock
+          'p_stock': product.productStock,
+          'p_rate':0.0
         }).then((value) {
           log('product added');
           CustomNavigator.navigationPop(context: context);
@@ -72,7 +77,8 @@ class ProductProvider {
   }
 
   ///---------------//
-  Future addCategory(String categoryName, context, url) async {
+  Future addCategory(
+      {required String categoryName, context, required url}) async {
     try {
       String? id = await findDocumentIdByCategory(categoryName);
 
@@ -120,51 +126,109 @@ class ProductProvider {
   }
 
   ///---------------------------------//
- Future<void> addToCart(String productId) async {
-  try {
-    // Get a reference to the user's cart document
-    final cartReference = FirebaseFirestore.instance.collection('carts').doc(currentUser!.email);
+  Future<void> addToCart(String productId) async {
+    try {
+      // Get a reference to the user's cart document
+      final cartReference = FirebaseFirestore.instance
+          .collection('carts')
+          .doc(currentUser!.email);
 
-    // Create a reference to the product document
-    final productReference = FirebaseFirestore.instance.collection('products').doc(productId);
+      // Create a reference to the product document
+      final productReference =
+          FirebaseFirestore.instance.collection('products').doc(productId);
 
-    // Add the product reference to the user's cart
-    await cartReference.collection('cartItems').add({
-      'productReference': productReference,
-      'addedAt': FieldValue.serverTimestamp(), // Optionally, add a timestamp
-    });
+      EasyLoading.show(
+          indicator: esLoading(),
+          maskType: EasyLoadingMaskType
+              .clear); // Check if the product reference already exists in the user's cart
+      final cartSnapshot = await cartReference
+          .collection('cartItems')
+          .where('productReference', isEqualTo: productReference)
+          .get();
 
-    print('Product added to cart.');
-  } catch (error) {
-    print('Error adding product to cart: $error');
+      if (cartSnapshot.docs.isNotEmpty) {
+        EasyLoading.dismiss().then((value) {
+          EasyLoading.showToast('item is already exist',
+              maskType: EasyLoadingMaskType.clear,
+              toastPosition: EasyLoadingToastPosition.top);
+        });
+      } else {
+        await cartReference.collection('cartItems').add({
+          'productReference': productReference,
+          'addedAt': FieldValue.serverTimestamp(),
+          'p_count': 1
+        }).whenComplete(() {
+          EasyLoading.dismiss().then((value) {
+            EasyLoading.showToast('Item Add To Cart',
+                maskType: EasyLoadingMaskType.clear,
+                toastPosition: EasyLoadingToastPosition.top);
+          });
+        });
+      }
+    } catch (error) {
+      print('Error adding product to cart: $error');
+    }
   }
-}
 
+  ///---------------------------------//
+  Future<void> updateCount(String productId, int count) async {
+    try {
+      final cartReference = FirebaseFirestore.instance
+          .collection('carts')
+          .doc(currentUser!.email);
+
+      await cartReference
+          .collection('cartItems')
+          .doc(productId)
+          .update({'p_count': count}).whenComplete(() {
+            log(productId);
+          });
+    } catch (error) {
+      print('Error adding product to cart: $error');
+    }
+  }
 
   ///-------------------------//
 
-  Future createWishListForCurrentUser(
-      {required Product product, context, docId}) async {
+  Future<void> addToWishList(String productId) async {
     try {
-      if (currentUser == null) {
-        return;
+      final wishListReference = FirebaseFirestore.instance
+          .collection('WishList')
+          .doc(currentUser!.email);
+
+      final productReference =
+          FirebaseFirestore.instance.collection('products').doc(productId);
+      EasyLoading.show(
+          indicator:  esLoading(), maskType: EasyLoadingMaskType.clear);
+
+      final wishListSnapshot = await wishListReference
+          .collection('WishListItems')
+          .where('productReference', isEqualTo: productReference)
+          .get();
+
+      if (wishListSnapshot.docs.isNotEmpty) {
+        EasyLoading.dismiss().then((value) {
+          EasyLoading.showToast('item is already exist',
+              maskType: EasyLoadingMaskType.clear,
+              toastPosition: EasyLoadingToastPosition.top);
+        });
+      } else {
+        await wishListReference.collection('WishListItems').add({
+          'productReference': productReference,
+          'addedAt': FieldValue.serverTimestamp(),
+          'p_count': 1
+        }).whenComplete(() {
+          EasyLoading.dismiss().then((value) {
+            EasyLoading.showToast('Item Add To WishList',
+                maskType: EasyLoadingMaskType.clear,
+                toastPosition: EasyLoadingToastPosition.top);
+          });
+        });
       }
 
-      final wishListDocument = wishList.doc(docId);
-
-      await wishListDocument.set({
-        'p_price': product.price,
-        'p_name': product.productName,
-        'p_description': product.productDescription,
-        'p_image': product.productImage,
-        'p_stock': product.productStock
-      }).then((value) {
-        log('product added');
-        message(context, 'product added to cart');
-      });
+      print('Product added to cart.');
     } catch (error) {
-      // Handle any errors that occur during the process
-      print('Error creating cart: $error');
+      print('Error adding product to cart: $error');
     }
   }
 
@@ -200,7 +264,7 @@ class ProductProvider {
       required docId,
       required BuildContext context}) async {
     try {
-      final id = await findDocumentIdByCategory(categoryName.toLowerCase());
+      final id = await findDocumentIdByCategory(categoryName.toUpperCase());
 
       if (id == null || id.isEmpty) {
         // ignore: use_build_context_synchronously
@@ -247,9 +311,65 @@ class ProductProvider {
     }
   }
 
- 
+  ///-------------//
+
+  double calculateInitialTotal({
+    required WidgetRef ref,
+  }) {
+    double totalAmount = 0;
+
+    // Retrieve the cart data and product data from providers
+    final cartAsync = ref.watch(cartContentsProvider);
+    final productAsync = ref.watch(productListProvider);
+
+    if (cartAsync is AsyncData<List<DocumentSnapshot<Object?>>>) {
+      final userCartData = cartAsync.value;
+
+      if (productAsync is AsyncData<List<DocumentSnapshot<Object?>>>) {
+        final productData = productAsync.value;
+
+        for (int index = 0; index < userCartData.length; index++) {
+          final cartData = userCartData[index].data() as Map<String, dynamic>;
+          final cartReference =
+              cartData['productReference'] as DocumentReference;
+          final pcount = cartData['p_count'];
+
+          // Find the corresponding product in productData
+          final matchingProduct = productData.firstWhere(
+            (product) => product.reference == cartReference,
+          );
+
+          final productPrice = matchingProduct['p_price'];
+          final parsedPrice =
+              double.parse(productPrice.toString().replaceAll(',', ''));
+
+          // Update the totalAmount
+          totalAmount += (parsedPrice * pcount);
+        }
+      }
+    }
+
+    return totalAmount;
+  }
+
+  Future<void> addToOrder({
+    required Product product,
+  }) async {
+    try {
+      final user = currentUser!.email;
+      final cartReference = checkOutCollection.doc(user);
+
+      await cartReference.collection('userOrder').add({
+        'p_price': product.price,
+        'p_name': product.productName,
+        'p_description': product.productDescription,
+        'p_image': product.productImage,
+        'p_stock': product.productStock
+      });
+
+      print('Product added to cart.');
+    } catch (error) {
+      print('Error adding product to cart: $error');
+    }
+  }
 }
-
-
-
-

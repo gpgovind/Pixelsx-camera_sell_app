@@ -64,7 +64,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                             CustomNewTextFiled(
                               text: 'Phone number',
                               height: 75.h,
-                              hintText: phoneNumber!.isEmpty
+                              hintText: phoneNumber=='empty'
                                   ? 'please enter number'
                                   : phoneNumber,
                               keyboardType: TextInputType.number,

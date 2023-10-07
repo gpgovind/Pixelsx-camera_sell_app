@@ -42,7 +42,7 @@ class _UsersState extends ConsumerState<Users> {
                   itemBuilder: (context, index) {
                     final userData = data[index].data() as Map<String, dynamic>;
                     final name = userData['name'];
-                    final id = userData['id'];
+                    final id = userData['email'];
                     final isBlocked = userData['isBlocked'] as bool;
                     final userImage = userData['imageUrl'];
                     log('$userImage userimage');
@@ -58,20 +58,20 @@ class _UsersState extends ConsumerState<Users> {
                             const SizedBox(
                               width: 10,
                             ),
-                            (userImage != 'empty')
-                                ? CircleAvatar(
-                                    radius: 26.r,
-                                    backgroundColor: Colors.white,
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        userImage,
-                                        fit: BoxFit.cover,
-                                        height: 135.r,
-                                        width: 135.r,
-                                      ),
-                                    ),
-                                  )
-                                : CircleAvatar(
+                            // (userImage.toString().isNotEmpty)
+                            //     ? CircleAvatar(
+                            //         radius: 26.r,
+                            //         backgroundColor: Colors.white,
+                            //         child: ClipOval(
+                            //           child: Image.network(
+                            //             userImage,
+                            //             fit: BoxFit.cover,
+                            //             height: 135.r,
+                            //             width: 135.r,
+                            //           ),
+                            //         ),
+                            //       )
+                             CircleAvatar(
                                     radius: 26.r,
                                     backgroundColor: Colors.white,
                                     child: const ClipOval(

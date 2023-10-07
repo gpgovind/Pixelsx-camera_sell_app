@@ -33,12 +33,14 @@ class CategoryListWidget extends StatelessWidget {
               SizedBox(
                 height: 20.h,
               ),
-              FittedBox(
-                child: Text(categoryName,
-                    style: TextStyle(
-                        fontSize: 20.519121170043945.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white)),
+              Wrap(
+                children: [
+                  Text(categoryName,
+                      style: TextStyle(
+                          fontSize: 20.519121170043945.sp,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white)),
+                ],
               ),
             ],
           )),

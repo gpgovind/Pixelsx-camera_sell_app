@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/user_model.dart';
+
 class UserProvider {
   blockUser({required isBlocked, required uid}) {
     log(uid);
@@ -70,9 +72,37 @@ class UserProvider {
           'name': name,
           'id': currentUser!.uid,
           'email': email,
-          'imageUrl': image,
+          'imageUrl': '',
           'isBlocked': isBlocked,
-          'phoneNumber': 'null'
+          'phoneNumber': 'empty',
+          'address': 'empty',
+          'city': 'empty'
+        });
+      }
+
+      debugPrint('Firestore data has been stored successfully');
+      log('firestore has data');
+    } catch (e) {
+      debugPrint('Error storing data to Firestore: $e');
+    }
+  }
+
+  ///-----------------//
+  Future<void> updateUserAddress({required UserModel user}) async {
+    try {
+      final id = await findDocumentIdByEmail(user.email);
+      if (id != null) {
+        DocumentReference store =
+            firestore.collection(usersCollection).doc(user.email);
+
+        await store.update({
+          'name': user.name,
+          'id': currentUser!.uid,
+          'email': user.email,
+          'imageUrl': user.image,
+          'phoneNumber': user.phoneNumber,
+          'address': user.address,
+          'city': user.city
         });
       }
 
@@ -98,7 +128,10 @@ class UserProvider {
   //---------------------------//
 
   Future<void> updateUserData(
-      {required String name,required image, context, required String phoneNumber}) async {
+      {required String name,
+      required image,
+      context,
+      required String phoneNumber}) async {
     try {
       final id = await findDocumentIdByEmail(currentUser!.email!);
       log('$id user id');

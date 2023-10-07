@@ -2,8 +2,8 @@ import 'package:camera_sell_app/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-GestureDetector adminCustomButton({text, void Function()? onTap}) {
-  return GestureDetector(
+InkWell adminCustomButton({text, void Function()? onTap}) {
+  return InkWell(
     onTap: onTap,
     child: CustomCard(
         cardHight: 77,

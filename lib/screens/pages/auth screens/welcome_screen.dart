@@ -1,6 +1,5 @@
 import 'package:camera_sell_app/utils/const_path.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login_screen.dart';
 import 'sign_up_screen.dart';
 
@@ -25,12 +24,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 250.h,
-                    width: 300.w,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover, image: AssetImage(appLog))),
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 100,
+                    child: Image.asset(appLog),
                   ),
                   const SizedBox(
                     height: 30,

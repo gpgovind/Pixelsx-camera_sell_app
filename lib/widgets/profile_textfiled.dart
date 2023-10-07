@@ -10,6 +10,7 @@ class CustomNewTextFiled extends StatefulWidget {
   final String? text;
   final String? validatorText;
   final String hintText;
+  final bool? enabled;
   final TextInputType keyboardType;
   final bool obscureText;
   final int? maxLines;
@@ -17,6 +18,7 @@ class CustomNewTextFiled extends StatefulWidget {
       {super.key,
       this.text = '',
       this.validatorText = '',
+      this.enabled,
       this.width = 360,
       required this.hintText,
       required this.height,
@@ -53,6 +55,7 @@ class _CustomNewTextFiledState extends State<CustomNewTextFiled> {
           ),
           child: Center(
             child: TextFormField(
+              enabled: widget.enabled,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return widget.validatorText;

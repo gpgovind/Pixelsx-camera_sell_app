@@ -11,8 +11,7 @@ class Authentication {
   Stream<User?> get authStateChange => auth.authStateChanges();
 
   Future signInUser(
-      {
-      required BuildContext context,
+      {required BuildContext context,
       required String name,
       required String email,
       required String password}) async {
@@ -25,7 +24,6 @@ class Authentication {
 
       String? userEmail = userCredential.user!.email;
       log('User signed in successfully. Email: $userEmail');
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'firebase_auth/invalid-email') {
         // Handle invalid email format error
@@ -118,18 +116,12 @@ class Authentication {
   }
   //------------------------//
 
-  void signUserOut(BuildContext context) {
-    FirebaseAuth.instance.signOut().then((_) {
-      log('signOut');
-
-      // Navigate to the login screen and remove all previous routes
+  Future signUserOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut().whenComplete(() {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (build) => const AuthPage()),
           (route) => false);
-    }).catchError((error) {
-      // Handle any sign-out errors here
-      log('Error signing out: $error');
     });
   }
 
@@ -152,13 +144,13 @@ class Authentication {
         idToken: gAuth.idToken,
       );
 
-      await FirebaseAuth.instance.signInWithCredential(credential).then((value) {
-         ref
+      await FirebaseAuth.instance
+          .signInWithCredential(credential)
+          .then((value) {
+        ref
             .watch(userProvider)
             .storeUserData(name: gUser.displayName, email: gUser.email);
       });
-    
-
     } on FirebaseAuthException catch (e) {
       // Handle FirebaseAuthException errors
       log('FirebaseAuthException during Google sign-in: ${e.message}');

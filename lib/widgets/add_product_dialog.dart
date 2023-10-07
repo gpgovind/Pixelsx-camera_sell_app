@@ -1,5 +1,6 @@
 import 'package:camera_sell_app/widgets/widget_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -35,7 +36,7 @@ addProductInputDialog({
               const SizedBox(
                 height: 10,
               ),
-              ImagePickerWidget(
+              ImagePickerAdminSide(
                 radius: 80.r,
               ),
               const SizedBox(
@@ -86,17 +87,28 @@ addProductInputDialog({
       DialogButton(
         onPressed: () async {
           if (formKey.currentState!.validate()) {
-            await addProduct
-                .uploadImageToFirebase(addProduct.productPickedImage);
+            if (addProduct.productPickedImage != null) {
+              EasyLoading.show(
+                  indicator: esLoading(), maskType: EasyLoadingMaskType.clear);
+              await addProduct
+                  .uploadImageToFirebase(addProduct.productPickedImage);
 
-            await addProduct.addProduct(
-                categoryName: productCategoryController.text.toLowerCase(),
-                product: Product(
-                    productStock: productStockController.text,
-                    price: productPriceController.text,
-                    productName: productNameController.text,
-                    productDescription: productDescriptionController.text,
-                    productImage: addProduct.productImageUrl ?? 'null')).then((value) =>  message(context, 'product added'));
+              await addProduct
+                  .addProduct(
+                      categoryName:
+                          productCategoryController.text.toUpperCase(),
+                      product: Product(
+                          productStock: productStockController.text,
+                          price: productPriceController.text,
+                          productName: productNameController.text,
+                          productDescription: productDescriptionController.text,
+                          productImage: addProduct.productImageUrl ?? 'null'))
+                  .whenComplete(() {
+                EasyLoading.dismiss();
+              });
+            } else {
+              EasyLoading.showInfo('pick image');
+            }
           }
         },
         width: 120,

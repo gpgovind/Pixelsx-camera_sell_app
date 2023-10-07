@@ -25,33 +25,35 @@ Widget neoPopBtn({required String text, void Function()? onTapUp}) => Container(
       ),
     );
 
-Widget neoPopBtnNew({required String text,
-Color? bottomShadowColor,
-Color? rightShadowColor,
-required Color color,
-double vertical = 0.0,
-double horizontal =0.0,
-Color? textColor,
-void Function()? onTapUp,
-Color? leftShadowColor
-}) => NeoPopButton(
+Widget neoPopBtnNew(
+        {required String text,
+        Color? bottomShadowColor,
+        Color? rightShadowColor,
+        required Color color,
+        double vertical = 0.0,
+        double horizontal = 0.0,
+        Color? textColor,
+        void Function()? onTapUp,
+        Color? leftShadowColor}) =>
+    NeoPopButton(
       color: color,
-      bottomShadowColor:bottomShadowColor,
+      bottomShadowColor: bottomShadowColor,
       rightShadowColor: rightShadowColor,
       animationDuration: const Duration(microseconds: 5000),
       leftShadowColor: leftShadowColor,
       depth: 4,
       onTapUp: onTapUp,
-      onTapDown: ()=>HapticFeedback.vibrate(),
+      onTapDown: () => HapticFeedback.vibrate(),
       border: Border.all(
         color: Colors.black,
       ),
       child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
+        padding:
+            EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(text, style:  TextStyle(color:textColor)),
+            Text(text, style: TextStyle(color: textColor, fontSize: 15)),
           ],
         ),
       ),

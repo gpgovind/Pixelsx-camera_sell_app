@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:camera_sell_app/utils/const_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerWidget extends ConsumerStatefulWidget {
@@ -55,25 +54,19 @@ class _ImagePickerWidgetState extends ConsumerState<ImagePickerWidget> {
           pickedImage != null
               ? CircleAvatar(
                   backgroundColor: const Color.fromRGBO(72, 76, 87, 1),
+                  backgroundImage: FileImage(pickedImage!),
                   radius: widget.radius,
-                  child: ClipOval(
-                    child: Image.file(
-                      pickedImage!,
-                      width: 200.w,
-                      height: 200.h,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
                 )
               : CircleAvatar(
                   backgroundColor: const Color.fromRGBO(72, 76, 87, 1),
                   radius: widget.radius,
                   child: widget.imageUrl!.isEmpty
                       ? const Icon(Icons.person_2_rounded)
-                      : ClipOval(
-                          child: CashNetworkImage(
-                          imageUrl: widget.imageUrl!,
-                        ))),
+                      : CircleAvatar(
+                          backgroundColor: const Color.fromRGBO(72, 76, 87, 1),
+                          backgroundImage: NetworkImage(widget.imageUrl!),
+                          radius: widget.radius,
+                        )),
           const SizedBox(height: 20),
           Positioned(
             top: 1,

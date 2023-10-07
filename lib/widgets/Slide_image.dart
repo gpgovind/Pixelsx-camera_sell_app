@@ -40,14 +40,7 @@ class SlideImage extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          ColorFiltered(
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.8), BlendMode.color),
-            child: Image.asset(
-              slideImage5,
-              fit: BoxFit.cover,
-            ),
-          ),
+      
           ColorFiltered(
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.8), BlendMode.color),

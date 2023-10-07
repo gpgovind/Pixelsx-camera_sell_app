@@ -1,6 +1,7 @@
 import 'package:animated_rail/animated_rail.dart';
 import 'package:flutter/material.dart';
 import '../screens/pages/admin screen/admin_category.dart';
+import '../screens/pages/admin screen/admin_order_info.dart';
 import '../screens/pages/admin screen/admin_products.dart';
 import '../screens/pages/admin screen/admin_users.dart';
 import '../screens/pages/admin screen/dashboard_screen.dart';
@@ -55,6 +56,10 @@ class NewCustomizations extends StatelessWidget {
                     icon: const Icon(Icons.inventory_outlined),
                     label: "Products Manage",
                     screen: const AdminProducts()),
+                RailItem(
+                    icon: const Icon(Icons.wallet_outlined),
+                    label: "order mange",
+                    screen: const AdminOrderInfo()),
               ],
             ),
           ),

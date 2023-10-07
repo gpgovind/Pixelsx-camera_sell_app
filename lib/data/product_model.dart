@@ -1,5 +1,3 @@
-
-
 class Product {
   final String price;
   final String productName;
@@ -15,3 +13,5 @@ class Product {
     required this.productImage,
   });
 }
+
+

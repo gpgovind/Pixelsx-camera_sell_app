@@ -153,6 +153,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                               () => auth.authStateChange
                                   .listen((event) => print('succuss'));
                               ref.watch(userProvider).storeUserData(
+                                  image: '',
                                   name: nameController.text,
                                   email: emailController.text);
                               setState(() => isLoading = false);

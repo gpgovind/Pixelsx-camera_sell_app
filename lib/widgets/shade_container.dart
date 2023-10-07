@@ -6,12 +6,14 @@ class ShadeContainer extends StatelessWidget {
   final double? radius;
   final double? height;
   final double? elevation;
+  final double? width;
   const ShadeContainer(
       {super.key,
       required this.child,
       this.border,
       this.radius,
       this.height,
+      this.width,
       this.elevation});
 
   @override
@@ -20,6 +22,7 @@ class ShadeContainer extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         height: height,
+        width: width,
         decoration: BoxDecoration(
           boxShadow: const [
             BoxShadow(

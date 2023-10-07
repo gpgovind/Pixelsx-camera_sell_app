@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../utils/const_path.dart';
@@ -13,8 +12,6 @@ class AuthPage extends ConsumerStatefulWidget {
 }
 
 class _AdminCategoryState extends ConsumerState<AuthPage> {
-
-
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
@@ -24,7 +21,12 @@ class _AdminCategoryState extends ConsumerState<AuthPage> {
           if (data != null) return const BottomNav();
           return const WelcomeScreen();
         },
-        error: (e, stackTrace) =>  loading(),
+        error: (e, stackTrace) => const Center(
+              child: Text(
+                'No Product',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
         loading: () => loading());
   }
 }

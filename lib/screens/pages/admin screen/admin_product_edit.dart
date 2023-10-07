@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../data/product_model.dart';
@@ -36,6 +37,8 @@ class _ProductEditState extends ConsumerState<ProductEdit> {
   final category = TextEditingController();
   final stock = TextEditingController();
 
+  String categoryName = '';
+
   @override
   void dispose() {
     productName.dispose();
@@ -67,6 +70,7 @@ class _ProductEditState extends ConsumerState<ProductEdit> {
                   children: [
                     ImagePickerWidget(
                       radius: 80.r,
+                      imageUrl: widget.imageUrl,
                     ),
                     Column(
                       children: [
@@ -103,7 +107,7 @@ class _ProductEditState extends ConsumerState<ProductEdit> {
                           height: 75.h,
                           hintText: widget.productDescription,
                           keyboardType: TextInputType.text,
-                          controller:description,
+                          controller: description,
                         ),
                         FutureBuilder<String?>(
                           future: showCategory(),
@@ -117,6 +121,7 @@ class _ProductEditState extends ConsumerState<ProductEdit> {
                             } else if (!snapshot.hasData) {
                               return const Text('Category not found');
                             } else {
+                              categoryName = snapshot.data ?? '';
                               return CustomNewTextFiled(
                                 text: 'category',
                                 height: 75.h,
@@ -132,20 +137,41 @@ class _ProductEditState extends ConsumerState<ProductEdit> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            await product.uploadImageToFirebase(
-                                product.productPickedImage);
+                            EasyLoading.show(
+                                indicator: esLoading(),
+                                maskType: EasyLoadingMaskType.clear);
+
+                            if (product.productPickedImage != null) {
+                              await product.uploadImageToFirebase(
+                                  product.productPickedImage);
+                            }
                             // ignore: use_build_context_synchronously
-                            await product.editProduct(
-                                docId: widget.docId,
-                                categoryName: category.text,
-                                context: ref.context,
-                                product: Product(
-                                    price: price.text,
-                                    productStock: stock.text,
-                                    productName: productName.text,
-                                    productDescription: description.text,
-                                    productImage: product.productImageUrl ??
-                                        widget.imageUrl));
+                            await product
+                                .editProduct(
+                                    docId: widget.docId,
+                                    categoryName: category.text.isEmpty
+                                        ? categoryName
+                                        : category.text,
+                                    context: ref.context,
+                                    product: Product(
+                                        price: price.text.isEmpty
+                                            ? widget.productPrice
+                                            : price.text,
+                                        productStock: stock.text.isEmpty
+                                            ? widget.productStock
+                                            : stock.text,
+                                        productName: productName.text.isEmpty
+                                            ? widget.productName
+                                            : productName.text,
+                                        productDescription:
+                                            description.text.isEmpty
+                                                ? widget.productDescription
+                                                : description.text,
+                                        productImage: product.productImageUrl ??
+                                            widget.imageUrl))
+                                .whenComplete(() {
+                              EasyLoading.dismiss();
+                            });
                           },
                           child: const Card(
                             elevation: 5,

@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
-import 'package:camera_sell_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -89,51 +86,6 @@ class _ItemOnClickState extends ConsumerState<CartOnClick> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Card(
-                          color: Colors.transparent,
-                          elevation: 6,
-                          child: CustomButton(
-                              buttonName: 'buy',
-                              hight: 80,
-                              radius: 18,
-                              width: 80),
-                        ),
-                        const SizedBox(
-                          width: 40,
-                        ),
-                        customIncreaseButton(
-                          onTap: () {
-                            if (stock < parseStock()) {
-                              setState(() {
-                                stock++;
-                              });
-                            } else {
-                              message(context, 'maximum stock reached');
-                            }
-                          },
-                        ),
-                        Text(stock.toString(),
-                            style: TextStyle(
-                                fontSize: 24.498355865478516.sp,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white)),
-                        customDegreesButton(
-                          onTap: () {
-                            if (stock <= parseStock() && stock > 1) {
-                              setState(() {
-                                stock--;
-                              });
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -143,15 +95,13 @@ class _ItemOnClickState extends ConsumerState<CartOnClick> {
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white)),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('₹ ${widget.productPrice}',
+                            Text('price : ₹ ${widget.productPrice}',
                                 style: TextStyle(
                                     fontSize: 25.519121170043945.sp,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.white)),
-                            SizedBox(
-                              width: 180.w,
-                            ),
                             Text("only ${widget.productStock} left",
                                 style: TextStyle(
                                     fontSize: 24.498355865478516.sp,

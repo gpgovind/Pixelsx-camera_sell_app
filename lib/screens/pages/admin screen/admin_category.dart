@@ -1,4 +1,3 @@
-
 import 'package:camera_sell_app/widgets/widget_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +13,7 @@ class AdminCategory extends ConsumerStatefulWidget {
 
 class _AdminCategoryState extends ConsumerState<AdminCategory> {
   TextEditingController productCategoryController = TextEditingController();
-
+  final formKey = GlobalKey<FormState>();
   @override
   void dispose() {
     productCategoryController.dispose();
@@ -33,10 +32,13 @@ class _AdminCategoryState extends ConsumerState<AdminCategory> {
             return Expanded(
               child: GridView.builder(
                 itemCount: data.length,
+                shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 8 / 9),
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                    crossAxisCount: 2, childAspectRatio: 8 / 9  ),
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 itemBuilder: (BuildContext context, int index) {
                   final productData =
                       data[index].data() as Map<String, dynamic>;
@@ -52,7 +54,6 @@ class _AdminCategoryState extends ConsumerState<AdminCategory> {
                         Color.fromRGBO(29, 31, 35, 1),
                       ],
                       cardWidth: double.infinity,
-                     
                       radius: 18,
                       // padding: const EdgeInsets.all(8.9),
                       child: Column(
@@ -66,6 +67,7 @@ class _AdminCategoryState extends ConsumerState<AdminCategory> {
                                 onEditSelected: () {
                                   showCategoryEditInputDialog(
                                       addCategory: addCategory,
+                                      categoryName: categoryName,
                                       context: context,
                                       id: id,
                                       productCategoryController:
@@ -101,11 +103,8 @@ class _AdminCategoryState extends ConsumerState<AdminCategory> {
           child: adminCustomButton(
               text: 'add category',
               onTap: () {
-                showCategoryInputDialog(
-                  addCategory,
-                  ref.context,
-                  productCategoryController,
-                );
+                showCategoryInputDialog(addCategory, ref.context,
+                    productCategoryController, formKey);
               }),
         )
       ],
