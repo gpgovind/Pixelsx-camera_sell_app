@@ -60,67 +60,70 @@ class _ShowOrderListState extends State<ShowOrderList> {
         children: [
           SizedBox(
             height: 180,
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 1,
-                  top: 5,
-                  child: Text('name: ${widget.userName}',
-                      style: const TextStyle(
-                          fontSize: 15.863384246826172,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white)),
-                ),
-                Positioned(
-                  left: 1,
-                  top: 30,
-                  child: Text('address: ${widget.userAddress}',
-                      style: const TextStyle(
-                          fontSize: 15.863384246826172,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white)),
-                ),
-                Positioned(
-                  left: 1,
-                  top: 55,
-                  child: Text('number: ${widget.userNumber}',
-                      style: const TextStyle(
-                          fontSize: 15.863384246826172,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white)),
-                ),
-                Positioned(
-                  left: 1,
-                  top: 80,
-                  child: Text('price: ${widget.productPrice}',
-                      style: const TextStyle(
-                          fontSize: 15.863384246826172,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white)),
-                ),
-                Positioned(
-                  left: 1,
-                  bottom: 20,
-                  child: widget.isDelved
-                      ? const SizedBox()
-                      : const CustomButton(
-                          buttonName: 'cancel',
-                          hight: 50,
-                          radius: 10,
-                          width: 100),
-                ),
-                Positioned(
-                    right: 1,
-                    bottom: 10,
-                    child: CashNetworkImage(imageUrl: widget.imageUrl)),
-                Positioned(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Stack(
+                children: [
+                  Positioned(
                     left: 1,
-                    bottom: 10,
-                    child:widget.orderInfo=='orderDelivered'?  RatingWidget(
-                      currentRating: widget.currentRating,
-                      pId: widget.pId,
-                    ):const SizedBox()),
-              ],
+                    top: 5,
+                    child: Text('name : ${widget.userName}',
+                        style: const TextStyle(
+                            fontSize: 15.863384246826172,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white)),
+                  ),
+                  Positioned(
+                    left: 1,
+                    top: 30,
+                    child: Text('address : ${widget.userAddress}',
+                        style: const TextStyle(
+                            fontSize: 15.863384246826172,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white)),
+                  ),
+                  Positioned(
+                    left: 1,
+                    top: 55,
+                    child: Text('number : ${widget.userNumber}',
+                        style: const TextStyle(
+                            fontSize: 15.863384246826172,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white)),
+                  ),
+                  Positioned(
+                    left: 1,
+                    top: 80,
+                    child: Text('price : ${widget.productPrice}',
+                        style: const TextStyle(
+                            fontSize: 15.863384246826172,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white)),
+                  ),
+                  Positioned(
+                    left: 1,
+                    bottom: 20,
+                    child: widget.isDelved
+                        ? const SizedBox()
+                        : const CustomButton(
+                            buttonName: 'cancel',
+                            hight: 50,
+                            radius: 10,
+                            width: 100),
+                  ),
+                  Positioned(
+                      right: 1,
+                      bottom: 10,
+                      child: CashNetworkImage(imageUrl: widget.imageUrl)),
+                  Positioned(
+                      left: 1,
+                      bottom: 10,
+                      child:widget.orderInfo=='orderDelivered'?  RatingWidget(
+                        currentRating: widget.currentRating,
+                        pId: widget.pId,
+                      ):const SizedBox()),
+                ],
+              ),
             ),
           )
         ],

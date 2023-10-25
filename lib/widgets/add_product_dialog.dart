@@ -4,8 +4,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import '../data/product_model.dart';
-import '../services/provider/product_provider.dart';
+import '../model/product_model.dart';
+import '../controller/provider/product_provider.dart';
 import '../utils/const_path.dart';
 
 addProductInputDialog({

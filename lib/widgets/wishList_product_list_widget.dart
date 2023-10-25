@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../data/product_model.dart';
-import '../screens/pages/main screens/order_info_screen.dart';
+import '../model/product_model.dart';
+import '../view/pages/main screens/order_info_screen.dart';
 import '../utils/const_path.dart';
 import 'widget_path.dart';
 
-class WishListProductList extends ConsumerWidget {
+class WishListProductList extends StatelessWidget {
   const WishListProductList({
     super.key,
     required this.imageUrl,
@@ -29,8 +29,9 @@ class WishListProductList extends ConsumerWidget {
   final String id;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final product = ref.watch(productProvider);
+  Widget build(
+    BuildContext context,
+  ) {
     return ShadeContainer(
         elevation: 3,
         height: 200,
@@ -131,16 +132,21 @@ class WishListProductList extends ConsumerWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    InkWell(
-                      onTap: () {
-                        product.addToCart(id);
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final product = ref.watch(productProvider);
+                        return InkWell(
+                          onTap: () {
+                            product.addToCart(id);
+                          },
+                          child: const CustomButton(
+                              buttonName: 'cart',
+                              hight: 50,
+                              radius: 10,
+                              width: 150),
+                        );
                       },
-                      child: const CustomButton(
-                          buttonName: 'cart',
-                          hight: 50,
-                          radius: 10,
-                          width: 150),
-                    ),
+                    )
                   ],
                 ),
               ),

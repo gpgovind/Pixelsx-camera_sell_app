@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-import '../screens/pages/main screens/item_on_click.dart';
+import '../view/pages/main screens/item_on_click.dart';
 import '../utils/const_path.dart';
 
 class ProductItem extends ConsumerStatefulWidget {
@@ -54,97 +54,96 @@ class _ProductItemState extends ConsumerState<ProductItem>
     return ShadeContainer(
       key: UniqueKey(),
       radius: 18,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 2,
-            right: 1,
-            child: IconButton(
-              splashRadius: 50,
-              iconSize: 100,
-              onPressed: () {
-                _favoriteController.reset();
-                _favoriteController.forward().then((value) {
-                  product.addToWishList(widget.docId);
-                });
-              },
-              icon: Lottie.asset(Icons8.heart_color,
-                  height: 28, controller: _favoriteController),
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 35,
+              right: 20,
+              child:
+                  FittedBox(child: CashNetworkImage(imageUrl: widget.imageUrl)),
             ),
-          ),
-          Positioned(
-            top: 35,
-            right: 20,
-            child:
-                FittedBox(child: CashNetworkImage(imageUrl: widget.imageUrl)),
-          ),
-          Positioned(
-            bottom: 60.h,
-            left: 20.w,
-            child: Text(
-              widget.productName,
-              style: TextStyle(
-                fontSize: 18.3.sp,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
+            Positioned(
+              bottom: 60.h,
+              left: 20.w,
+              child: Text(
+                widget.productName,
+                style: TextStyle(
+                  fontSize: 18.3.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            left: 2,
-            top: 10,
-            child: Image.asset(
-              ratingIcon,
-              width: 23.w,
-              height: 23.h,
-              fit: BoxFit.cover,
+            Row(
+              children: [
+                Image.asset(
+                  ratingIcon,
+                  width: 23.w,
+                  height: 23.h,
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  widget.productRating.toStringAsFixed(1),
+                  style: TextStyle(
+                    fontSize: 18.3.sp,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                ),
+                Spacer(),
+                IconButton(
+                  splashRadius: 50,
+                  iconSize: 100,
+                  onPressed: () {
+                    _favoriteController.reset();
+                    _favoriteController.forward().then((value) {
+                      product.addToWishList(widget.docId);
+                    });
+                  },
+                  icon: Lottie.asset(Icons8.heart_color,
+                      height: 28, controller: _favoriteController),
+                ),
+              ],
             ),
-          ),
-          Positioned(
-            left: 25,
-            top: 10,
-            child: Text(
-              widget.productRating.toStringAsFixed(1),
-              style: TextStyle(
-                fontSize: 18.3.sp,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
+            Positioned(
+              bottom: 10.h,
+              right: 15.w,
+              child: ArrowCustomButton(
+                onTap: () async {
+                  CustomNavigator.navigationPush(
+                    context: context,
+                    child: ItemOnClick(
+                        reference: widget.reference,
+                        docId: widget.docId,
+                        productStock: widget.productStock,
+                        imageUrl: widget.imageUrl,
+                        productName: widget.productName,
+                        productPrice: widget.productPrice,
+                        productRating: widget.productRating,
+                        productDescription: widget.productDescription),
+                  );
+                },
               ),
             ),
-          ),
-          Positioned(
-            bottom: 10.h,
-            right: 15.w,
-            child: ArrowCustomButton(
-              onTap: () async {
-                CustomNavigator.navigationPush(
-                  context: context,
-                  child: ItemOnClick(
-                      reference: widget.reference,
-                      docId: widget.docId,
-                      productStock: widget.productStock,
-                      imageUrl: widget.imageUrl,
-                      productName: widget.productName,
-                      productPrice: widget.productPrice,
-                      productRating: widget.productRating,
-                      productDescription: widget.productDescription),
-                );
-              },
-            ),
-          ),
-          Positioned(
-            bottom: 20.h,
-            left: 20.w,
-            child: Text(
-              widget.productPrice,
-              style: TextStyle(
-                fontSize: 18.311471939086914.sp,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
+            Positioned(
+              bottom: 20.h,
+              left: 20.w,
+              child: Text(
+                widget.productPrice,
+                style: TextStyle(
+                  fontSize: 18.311471939086914.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

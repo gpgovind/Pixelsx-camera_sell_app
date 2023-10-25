@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget customFrontButton({void Function()? onTap, required String text}) =>
-    GestureDetector(
+    InkWell(
       onTap: onTap,
       child: Container(
         height: 60.h,

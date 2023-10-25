@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'admin_order_info_widget.dart';
 
-class ShowOrderListAdmin extends StatefulWidget {
-  const ShowOrderListAdmin(
+class ShowOrderListAdmin extends StatelessWidget {
+   ShowOrderListAdmin(
       {super.key,
       required this.imageUrl,
       required this.orderInfo,
@@ -28,25 +28,21 @@ class ShowOrderListAdmin extends StatefulWidget {
   final String userAddress;
   final String userNumber;
 
-  @override
-  State<ShowOrderListAdmin> createState() => _ShowOrderListAdminState();
-}
+ final bool onClicked = false;
 
-class _ShowOrderListAdminState extends State<ShowOrderListAdmin> {
-  bool onClicked = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: ListTile(
         textColor: Colors.white,
-        trailing: Text('₹ ${widget.productPrice}',
+        trailing: Text('₹ $productPrice',
             style: TextStyle(
                 fontSize: 17.863384246826172,
                 fontWeight: FontWeight.w400,
                 color: Colors.green[300])),
         tileColor: const Color.fromRGBO(72, 76, 87, 1),
-        title: Text(widget.productName,
+        title: Text(productName,
             style: const TextStyle(
                 fontSize: 17.863384246826172,
                 fontWeight: FontWeight.w400,
@@ -56,16 +52,16 @@ class _ShowOrderListAdminState extends State<ShowOrderListAdmin> {
           CustomNavigator.navigationPush(
               context: context,
               child: OrderProgressMange(
-                docId: widget.docId,
-                imageUrl: widget.imageUrl,
-                isDelved: widget.isDelved,
-                orderInfo: widget.orderInfo,
-                productDescription: widget.productDescription,
-                productName: widget.productName,
-                productPrice: widget.productPrice,
-                userAddress: widget.userAddress,
-                userName: widget.userName,
-                userNumber: widget.userNumber,
+                docId: docId,
+                imageUrl: imageUrl,
+                isDelved: isDelved,
+                orderInfo: orderInfo,
+                productDescription: productDescription,
+                productName: productName,
+                productPrice: productPrice,
+                userAddress: userAddress,
+                userName: userName,
+                userNumber: userNumber,
               ));
         },
       ),

@@ -25,13 +25,7 @@ class ShowSearchResult extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
           child: Stack(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Wrap(
-                    direction: Axis.vertical,
-                    children: [
-                      FittedBox(
+               FittedBox(
                         child: Text(productName,
                             style: TextStyle(
                                 fontSize: 22.519121170043945.sp,
@@ -41,32 +35,29 @@ class ShowSearchResult extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      FittedBox(
-                        child: Row(
-                          children: [
-                            const Text("price ₹",
-                                style: TextStyle(
-                                    fontSize: 17.863384246826172,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white)),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(productPrice,
-                                style: TextStyle(
-                                    fontSize: 17.863384246826172,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.red[300])),
-                          ],
+                      Positioned(
+                        left: 5,
+                   bottom: 10,
+                        child: FittedBox(
+                          child: Row(
+                            children: [
+                              const Text("price ₹",
+                                  style: TextStyle(
+                                      fontSize: 17.863384246826172,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white)),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(productPrice,
+                                  style: TextStyle(
+                                      fontSize: 17.863384246826172,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.red[300])),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
               Align(
                 alignment: Alignment.topRight,
                 child: CashNetworkImage(

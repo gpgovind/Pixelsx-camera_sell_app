@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:610850199352:android:e4f3fc72620a9501e813cd",
         "android_client_info": {
-          "package_name": "com.example.camera_sell_app"
+          "package_name": "com.kannan.pixelsx.gp"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "610850199352-d9hu4h6tpledded1iq5jr79qi68ovegd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.camera_sell_app",
+            "package_name": "com.kannan.pixelsx.gp",
             "certificate_hash": "8f268463cdd310c846bfea9029d43e01f2c7be97"
           }
         },

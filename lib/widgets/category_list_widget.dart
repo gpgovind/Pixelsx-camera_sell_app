@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../screens/pages/main screens/category_product_list.dart';
+import '../view/pages/main screens/category_product_list.dart';
 import '../utils/const_path.dart';
 import 'widget_path.dart';
 
@@ -31,16 +31,14 @@ class CategoryListWidget extends StatelessWidget {
             children: [
               CashNetworkImage(imageUrl: categoryImage),
               SizedBox(
-                height: 20.h,
+                height: 10,
               ),
-              Wrap(
-                children: [
-                  Text(categoryName,
-                      style: TextStyle(
-                          fontSize: 20.519121170043945.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white)),
-                ],
+              FittedBox(
+                child: Text(categoryName,
+                    style: TextStyle(
+                        fontSize: 20.519121170043945.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white)),
               ),
             ],
           )),

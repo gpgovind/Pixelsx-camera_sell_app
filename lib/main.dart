@@ -4,9 +4,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'screens/pages/auth screens/firebase_auth_screen.dart';
+import 'view/pages/auth screens/firebase_auth_screen.dart';
 import 'utils/const_path.dart';
-// import 'package:motion/motion.dart';
+
 
 Future<void> main() async {
   
@@ -31,6 +31,7 @@ class MyApp extends ConsumerWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Camera Sell App',
         theme: ThemeData(
           useMaterial3: true,

@@ -1,10 +1,10 @@
 import 'package:animated_rail/animated_rail.dart';
 import 'package:flutter/material.dart';
-import '../screens/pages/admin screen/admin_category.dart';
-import '../screens/pages/admin screen/admin_order_info.dart';
-import '../screens/pages/admin screen/admin_products.dart';
-import '../screens/pages/admin screen/admin_users.dart';
-import '../screens/pages/admin screen/dashboard_screen.dart';
+import '../view/pages/admin screen/admin_category.dart';
+import '../view/pages/admin screen/admin_order_info.dart';
+import '../view/pages/admin screen/admin_products.dart';
+import '../view/pages/admin screen/admin_users.dart';
+
 
 class NewCustomizations extends StatelessWidget {
   const NewCustomizations({Key? key}) : super(key: key);
@@ -34,16 +34,17 @@ class NewCustomizations extends StatelessWidget {
                 collapsedTextStyle:
                     TextStyle(fontSize: 12, color: Colors.white),
                 activeColor: Colors.white70,
+
                 iconPadding: EdgeInsets.symmetric(vertical: 5),
                 hideCollapsedText: true,
               ),
               cursorSize: const Size(70, 70),
               cursorActionType: CursorActionTrigger.clickAndDrag,
               items: [
-                RailItem(
-                    icon: const Icon(Icons.dashboard_customize_outlined),
-                    label: "Dashboard",
-                    screen: const DashboardScreen()),
+                // RailItem(
+                //     icon: const Icon(Icons.dashboard_customize_outlined),
+                //     label: "Dashboard",
+                //     screen: const DashboardScreen()),
                 RailItem(
                     icon: const Icon(Icons.category_outlined),
                     label: "Category Manage",

@@ -1,11 +1,11 @@
-import 'package:camera_sell_app/services/provider/product_provider.dart';
-import 'package:camera_sell_app/services/provider/user_provider.dart';
+import 'package:camera_sell_app/controller/provider/product_provider.dart';
+import 'package:camera_sell_app/controller/provider/user_provider.dart';
 import 'package:camera_sell_app/utils/const_path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/provider/authentication.dart';
-import '../services/provider/check_out_provider.dart';
+import '../controller/provider/authentication.dart';
+import '../controller/provider/check_out_provider.dart';
 
 final productProvider = Provider((ref) => ProductProvider());
 
@@ -94,3 +94,5 @@ final userCurrentDetails = StreamProvider<DocumentSnapshot?>((ref) {
     return documentSnapshot;
   });
 });
+
+

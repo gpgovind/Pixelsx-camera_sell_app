@@ -1,11 +1,10 @@
-
 import 'package:camera_sell_app/widgets/shade_container.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/const_path.dart';
 import 'delivery_selected_page.dart';
 
-class OrderProgressMange extends StatefulWidget {
+class OrderProgressMange extends StatelessWidget {
   const OrderProgressMange(
       {super.key,
       required this.imageUrl,
@@ -30,12 +29,8 @@ class OrderProgressMange extends StatefulWidget {
   final String userAddress;
   final String userNumber;
 
-  @override
-  State<OrderProgressMange> createState() => _OrderProgressMangeState();
-}
+  final bool onClicked = false;
 
-class _OrderProgressMangeState extends State<OrderProgressMange> {
-  bool onClicked = false;
   @override
   Widget build(BuildContext context) {
     return backgroundColor(
@@ -47,70 +42,72 @@ class _OrderProgressMangeState extends State<OrderProgressMange> {
               ShadeContainer(
                 radius: 18,
                 elevation: 2,
-                  height: 180,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          left: 1,
-                          top: 5,
-                          child: Text('name: ${widget.userName}',
-                              style: const TextStyle(
-                                  fontSize: 15.863384246826172,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white)),
-                        ),
-                        Positioned(
-                          left: 1,
-                          top: 30,
-                          child: Text('address: ${widget.userAddress}',
-                              style: const TextStyle(
-                                  fontSize: 15.863384246826172,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white)),
-                        ),
-                        Positioned(
-                          left: 1,
-                          top: 55,
-                          child: Text('number: ${widget.userNumber}',
-                              style: const TextStyle(
-                                  fontSize: 15.863384246826172,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white)),
-                        ),
-                        Positioned(
-                          left: 1,
-                          top: 80,
-                          child: Text('price: ${widget.productPrice}',
-                              style: const TextStyle(
-                                  fontSize: 15.863384246826172,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white)),
-                        ),
-                        
-                        Positioned(
-                          left: 1,
-                       bottom: 32,
-                          child: Text('status: ${widget.orderInfo}',
-                              style:  TextStyle(
-                                  fontSize: 15.863384246826172,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.green[300])),
-                        ),
-                        Positioned(
-                            right: 1,
-                            bottom: 10,
-                            child: CashNetworkImage(imageUrl: widget.imageUrl)),
-                       
-                      ],
-                    ),
+                height: 180,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 1,
+                        top: 5,
+                        child: Text('name: $userName',
+                            style: const TextStyle(
+                                fontSize: 15.863384246826172,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                      Positioned(
+                        left: 1,
+                        top: 30,
+                        child: Text('address: $userAddress',
+                            style: const TextStyle(
+                                fontSize: 15.863384246826172,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                      Positioned(
+                        left: 1,
+                        top: 55,
+                        child: Text('number: $userNumber',
+                            style: const TextStyle(
+                                fontSize: 15.863384246826172,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                      Positioned(
+                        left: 1,
+                        top: 80,
+                        child: Text('price: $productPrice',
+                            style: const TextStyle(
+                                fontSize: 15.863384246826172,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white)),
+                      ),
+                      Positioned(
+                        left: 1,
+                        bottom: 32,
+                        child: Text('status: $orderInfo',
+                            style: TextStyle(
+                                fontSize: 15.863384246826172,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.green[300])),
+                      ),
+                      Positioned(
+                          right: 1,
+                          bottom: 10,
+                          child: CashNetworkImage(imageUrl: imageUrl)),
+                    ],
                   ),
                 ),
-                 Expanded(child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40),
-                  child: OrderUpdatePage(docId: widget.docId,),
-                ))
+              ),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: OrderUpdatePage(
+                  docId: docId,
+                ),
+              ))
             ],
           ),
         ),

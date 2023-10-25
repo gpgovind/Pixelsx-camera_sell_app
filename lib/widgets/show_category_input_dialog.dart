@@ -5,7 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import '../services/provider/product_provider.dart';
+import '../controller/provider/product_provider.dart';
 
 showCategoryInputDialog(
     ProductProvider addCategory,
